@@ -1,5 +1,6 @@
 import * as React from "react";
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import styles from "../styles";
 
 interface IProp {
   navigation: any;
@@ -9,7 +10,13 @@ interface IProp {
 export const Login = (props: IProp) => {
   return (
     <View>
-      <Text>Login Page</Text>
+      <TouchableOpacity
+        style={styles.primaryButton}
+        onPress={() => {
+          props.navigation.navigate("Home");
+        }}>
+        <Text style={styles.primaryButtonText}>Login</Text>
+      </TouchableOpacity>
     </View>
   );
 };
