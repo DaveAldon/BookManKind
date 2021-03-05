@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "276457987323",
+    "project_id": "bookmankind",
+    "storage_bucket": "bookmankind.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276457987323:android:038509d758d628209c245e",
+        "android_client_info": {
+          "package_name": "com.davealdon.BookManKind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "276457987323-vtiaf782jidep3lcep4v72upr5364j5h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPv0FkewSQ4KGsOwZ1LQ0bRjVqTSeeagI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "276457987323-vtiaf782jidep3lcep4v72upr5364j5h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "276457987323-g76rj0d08nkann6omqis8uphtl3c1dlp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.davealdon.bookmankind"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
