@@ -1,4 +1,9 @@
 import auth from "@react-native-firebase/auth";
+import database from "@react-native-firebase/database";
+
+function getUID() {
+  return Authentication.getUser().user.uid;
+}
 
 function signUp(username: string, password: string) {
   auth()
@@ -40,4 +45,10 @@ function logout() {
     .then(() => console.log("User signed out!"));
 }
 
-export const Authentication = { login, signUp, logout };
+function getUser() {
+  return {
+    user: auth().currentUser,
+  };
+}
+
+export const Authentication = { login, signUp, logout, getUser, getUID };
