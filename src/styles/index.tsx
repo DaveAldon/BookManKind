@@ -14,4 +14,16 @@ const styles = StyleSheet.create({
   },
 });
 
+export const Colors = {
+  backgrounds: {
+    DARKEST: "#2F3136",
+    DARKEST_OPAQUE: "rgba(47, 49, 54, 0.8)",
+    MEDIUMDARK: "#36393F",
+    LIGHTEST: "#40444C",
+  },
+  defaultText: {
+    color: "#FFFF",
+  },
+};
+
 export default styles;

@@ -14,6 +14,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import { useEffect, useState } from "react";
 import auth from "@react-native-firebase/auth";
 import { Authentication } from "./src/hooks/Authentication";
+import * as GlobalStyles from "./src/styles";
 
 interface IProp {
   navigation: any;
@@ -77,7 +78,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <SafeAreaView style={{ height: "100%" }}>
+      <SafeAreaView style={{ height: "100%", backgroundColor: GlobalStyles.Colors.backgrounds.DARKEST }}>
         {user ? (
           <Stack.Navigator initialRouteName="Drawer">
             <Stack.Screen name="Drawer" component={DrawerContainer} options={{ headerShown: false }} />
