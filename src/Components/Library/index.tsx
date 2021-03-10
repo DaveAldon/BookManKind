@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import database from "@react-native-firebase/database";
 import { Authentication } from "../../hooks/Authentication";
 import * as GlobalStyles from "../../styles";
 import { LibraryCard } from "./LibraryCard";
+import Swipeable from "../../libraryOverrides/Swipeable";
+import * as Icons from "../../styles/icons";
 
 interface IProp {
   navigation: any;
@@ -17,6 +19,9 @@ function createLibrary(name: string) {
     .ref(path)
     .update({
       admins: [{ uid: Authentication.getUID(), email: Authentication.getUser().user.email }],
+      metaData: {
+        createdOn: new Date().getTime(),
+      },
       books: [{}],
     })
     .then(() => console.log("Data updated."));
@@ -28,6 +33,7 @@ interface ILibrary {
 }
 
 export default function Library(props: IProp) {
+  const { navigation } = props;
   const [libraries, setLibraries] = useState([]);
 
   useEffect(() => {
@@ -46,6 +52,26 @@ export default function Library(props: IProp) {
     return () => database().ref(`/users/${Authentication.getUID()}`).off("value", onValueChange);
   }, [Authentication.getUID()]);
 
+  const rightButtons = [
+    <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.RED }, styles.swipeButtons]}>
+      <Icons.Delete />
+    </TouchableOpacity>,
+    <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}>
+      <Icons.Share />
+    </TouchableOpacity>,
+  ];
+
+  const renderLibrary = ({ item }) => (
+    <Swipeable rightButtons={rightButtons}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("Books");
+        }}>
+        <LibraryCard {...item} />
+      </TouchableOpacity>
+    </Swipeable>
+  );
+
   return (
     <View>
       <Text style={GlobalStyles.Colors.defaultText}>Library</Text>
@@ -56,13 +82,23 @@ export default function Library(props: IProp) {
         }}>
         <Text style={GlobalStyles.Colors.defaultText}>Create Library</Text>
       </TouchableOpacity>
-      <View>
-        {libraries.map((library) => {
-          console.log(library);
-          //return <Text>{library.key}</Text>;
-          return <LibraryCard {...library} />;
-        })}
-      </View>
+      <FlatList
+        data={libraries}
+        renderItem={renderLibrary}
+        keyExtractor={(item) => {
+          return item.toJSON().metaData.createdOn;
+        }}
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  swipeButtons: {
+    height: "100%",
+    borderRadius: 10,
+    width: "18%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

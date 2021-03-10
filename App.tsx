@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import auth from "@react-native-firebase/auth";
 import { Authentication } from "./src/hooks/Authentication";
 import * as GlobalStyles from "./src/styles";
+import { Books } from "./src/Components/Books";
 
 interface IProp {
   navigation: any;
@@ -53,7 +54,7 @@ function DrawerContainer() {
           </DrawerContentScrollView>
         );
       }}>
-      <Drawer.Screen name="Home">{(props: IProp) => <Home {...props} />}</Drawer.Screen>
+      <Drawer.Screen name="Home" component={LibraryStack} />
     </Drawer.Navigator>
   );
 }
@@ -93,3 +94,12 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+const LibraryStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen name="Library" component={Home} options={{ headerShown: false }} />
+      <Stack.Screen name="Books" component={Books} options={{ headerShown: true }} />
+    </Stack.Navigator>
+  );
+};
