@@ -99,7 +99,19 @@ const LibraryStack = () => {
   return (
     <Stack.Navigator initialRouteName="Login">
       <Stack.Screen name="Library" component={Home} options={{ headerShown: false }} />
-      <Stack.Screen name="Books" component={Books} options={{ headerShown: true }} />
+      <Stack.Screen
+        name="Books"
+        component={Books}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: GlobalStyles.Colors.backgrounds.DARKEST,
+          },
+          headerTitleStyle: {
+            color: GlobalStyles.Colors.defaultText.color,
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 };
