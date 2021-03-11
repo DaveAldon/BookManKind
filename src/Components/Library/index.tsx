@@ -22,7 +22,20 @@ function createLibrary(name: string) {
       metaData: {
         createdOn: new Date().getTime(),
       },
-      books: [{}],
+      books: [
+        {
+          title: "Good Book",
+          author: "Billy Bob",
+          publicationYear: "1986",
+          pages: 342,
+        },
+        {
+          title: "Bad Book",
+          author: "Joe Grow",
+          publicationYear: "2010",
+          pages: 210,
+        },
+      ],
     })
     .then(() => console.log("Data updated."));
 }
@@ -65,7 +78,7 @@ export default function Library(props: IProp) {
     <Swipeable rightButtons={rightButtons}>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("Books");
+          navigation.navigate("Books", { libraryName: `${item.key}` });
         }}>
         <LibraryCard {...item} />
       </TouchableOpacity>
