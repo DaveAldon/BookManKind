@@ -28,12 +28,21 @@ function createLibrary(name: string) {
           author: "Billy Bob",
           publicationYear: "1986",
           pages: 342,
+          genre: "Fiction",
         },
         {
           title: "Bad Book",
           author: "Joe Grow",
           publicationYear: "2010",
           pages: 210,
+          genre: "History",
+        },
+        {
+          title: "anotha one",
+          author: "Joe Grow",
+          publicationYear: "2010",
+          pages: 210,
+          genre: "",
         },
       ],
     })

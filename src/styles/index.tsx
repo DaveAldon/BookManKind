@@ -28,6 +28,11 @@ export const Colors = {
   defaultText: {
     color: "#FFFF",
   },
+  text: {
+    green: "#34eb58",
+    red: "#ff4545",
+    yellow: "#edd900",
+  },
 };
 
 export default styles;

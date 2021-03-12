@@ -14,8 +14,21 @@ export function Books(props: any) {
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
 
-  const renderBooks = ({ item }) => {
-    if (item._snapshot.value) return <Book {...item} />;
+  const rightButtons = [
+    <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.RED }, styles.swipeButtons]}>
+      <Icons.Delete />
+    </TouchableOpacity>,
+    <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}>
+      <Icons.Edit />
+    </TouchableOpacity>,
+  ];
+
+  const renderBooks = ({ item, index }) => {
+    return (
+      <Swipeable rightButtons={rightButtons}>
+        <Book key={index} {...item} />
+      </Swipeable>
+    );
   };
 
   const bookApiProp = {
@@ -40,11 +53,13 @@ export function Books(props: any) {
   }, [Authentication.getUID()]);
 
   const filterItems = (items, filter) => {
-    return items.filter((item) => {
+    const result = items.filter((item) => {
       item = item.toJSON();
       const itemData = `${item.title.toLowerCase()} ${item.author.toLowerCase()} ${item.pages} ${item.publicationYear}`;
       return itemData.includes(filter.toLowerCase());
     });
+
+    return result;
   };
 
   return (
@@ -52,10 +67,20 @@ export function Books(props: any) {
       <FlatList
         data={filterItems(books, search)}
         renderItem={renderBooks}
-        keyExtractor={(item) => {
-          return item.id;
+        keyExtractor={(item, index) => {
+          return `${index}`;
         }}
         ListHeaderComponent={<SearchBar placeholder="Search here..." value={search} darkTheme round onChangeText={setSearch} autoCorrect={false} />}
+        ItemSeparatorComponent={() => {
+          return (
+            <View
+              style={{
+                height: 10,
+                width: "100%",
+              }}
+            />
+          );
+        }}
       />
     </View>
   );
