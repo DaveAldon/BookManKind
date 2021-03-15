@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, TouchableHighlight, FlatList } from "react-native";
-import { StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, TouchableHighlight, FlatList, StyleSheet } from "react-native";
 import * as GlobalStyles from "../../styles";
 import Swipeable from "../../libraryOverrides/Swipeable";
 import * as Icons from "../../styles/icons";
@@ -8,24 +7,34 @@ import { Book } from "./Book";
 import database from "@react-native-firebase/database";
 import { Authentication } from "../../hooks/Authentication";
 import { SearchBar } from "react-native-elements";
+import BottomSheet from "reanimated-bottom-sheet";
+import EditBook from "./EditBook";
 
 export function Books(props: any) {
   const { libraryName } = props.route.params;
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
+  const sheetRef = React.useRef(null);
+  const [bookContext, setBookContext] = useState(null);
 
-  const rightButtons = [
-    <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.RED }, styles.swipeButtons]}>
-      <Icons.Delete />
-    </TouchableOpacity>,
-    <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}>
-      <Icons.Edit />
-    </TouchableOpacity>,
-  ];
+  const rightButtons = (item: any) => {
+    return [
+      <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.RED }, styles.swipeButtons]}>
+        <Icons.Delete />
+      </TouchableOpacity>,
+      <TouchableOpacity
+        style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}
+        onPress={() => {
+          setBookContext({ ...item });
+        }}>
+        <Icons.Edit />
+      </TouchableOpacity>,
+    ];
+  };
 
   const renderBooks = ({ item, index }) => {
     return (
-      <Swipeable rightButtons={rightButtons}>
+      <Swipeable rightButtons={rightButtons(item)}>
         <Book key={index} {...item} />
       </Swipeable>
     );
@@ -62,6 +71,11 @@ export function Books(props: any) {
     return result;
   };
 
+  const editBookProp = {
+    bookContext,
+    setBookContext,
+  };
+
   return (
     <View style={{ backgroundColor: GlobalStyles.Colors.backgrounds.DARKEST, flex: 1 }}>
       <FlatList
@@ -82,6 +96,7 @@ export function Books(props: any) {
           );
         }}
       />
+      <BottomSheet ref={sheetRef} snapPoints={[450, 300, 0]} borderRadius={10} renderContent={() => bookContext && <EditBook {...editBookProp} />} />
     </View>
   );
 }

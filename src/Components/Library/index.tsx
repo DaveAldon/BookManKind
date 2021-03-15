@@ -107,8 +107,8 @@ export default function Library(props: IProp) {
       <FlatList
         data={libraries}
         renderItem={renderLibrary}
-        keyExtractor={(item) => {
-          return item.toJSON().metaData.createdOn;
+        keyExtractor={(item, index) => {
+          return index.toString();
         }}
       />
     </View>

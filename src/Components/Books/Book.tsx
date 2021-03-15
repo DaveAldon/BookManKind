@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, TouchableHighlight, FlatList } from "react-native";
+import React from "react";
+import { View } from "react-native";
 import { StyleSheet } from "react-native";
 import * as GlobalStyles from "../../styles";
-import Swipeable from "../../libraryOverrides/Swipeable";
 import * as Icons from "../../styles/icons";
 import Pie from "./PieChart";
+import FlavorText from "../FlavorText";
 
 interface IBook {
   title?: string;
@@ -24,7 +24,7 @@ export function Book(props: any) {
   };
 
   const demos = library._snapshot.value;
-  const demosIncrememt = Math.round(100 / (Object.keys(demos).length - 1));
+  const demosIncrememt = Math.round(100 / Object.keys(demos).length);
 
   for (let key in demos) {
     if (demos[key] !== "" && key !== "id") pieProp.percentComplete += demosIncrememt;
@@ -34,8 +34,8 @@ export function Book(props: any) {
     <View
       style={{ height: 150, backgroundColor: GlobalStyles.Colors.backgrounds.MEDIUMDARK, borderRadius: 10, margin: 0, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
       <View style={{ width: "33%", backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, borderRadius: 10, alignItems: "center", justifyContent: "center", height: "100%" }}>
-        <Text style={[{ fontSize: baseFontSize, fontWeight: "700" }, GlobalStyles.Colors.defaultText]}>{title}</Text>
-        <Text style={[{ fontSize: baseFontSize - 2 }, GlobalStyles.Colors.defaultText]}>{author}</Text>
+        <FlavorText {...{ text: title, name: "Title", style: [{ fontSize: baseFontSize, fontWeight: "700" }, GlobalStyles.Colors.defaultText] }} />
+        <FlavorText {...{ text: author, name: "Author", style: [{ fontSize: baseFontSize - 2 }, GlobalStyles.Colors.defaultText] }} />
       </View>
       <View style={{ width: "33%", alignItems: "center", justifyContent: "center", height: "100%" }}>
         <Pie {...pieProp} />
@@ -43,15 +43,15 @@ export function Book(props: any) {
       <View style={{ flexDirection: "column", backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, borderRadius: 10, width: "33%", height: "100%", justifyContent: "center" }}>
         <View style={styles.metaView}>
           <Icons.Calendar size={baseFontSize} />
-          <Text style={[styles.metaText, GlobalStyles.Colors.defaultText]}>{publicationYear}</Text>
+          <FlavorText {...{ text: publicationYear, name: "Publ. Year", style: styles.metaText }} />
         </View>
         <View style={styles.metaView}>
           <Icons.Pages size={baseFontSize} />
-          <Text style={[styles.metaText, GlobalStyles.Colors.defaultText]}>{pages}</Text>
+          <FlavorText {...{ text: pages, name: "Pages", style: styles.metaText }} />
         </View>
         <View style={styles.metaView}>
           <Icons.Genre size={baseFontSize - 2} />
-          <Text style={[styles.metaText, GlobalStyles.Colors.defaultText]}>{genre}</Text>
+          <FlavorText {...{ text: genre, name: "Genre", style: styles.metaText }} />
         </View>
       </View>
     </View>
