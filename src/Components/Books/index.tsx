@@ -14,7 +14,7 @@ export function Books(props: any) {
   const { libraryName } = props.route.params;
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
-  const sheetRef = React.useRef(null);
+  const bottomSheetRef = React.useRef(null);
   const [bookContext, setBookContext] = useState(null);
 
   const rightButtons = (item: any) => {
@@ -25,7 +25,11 @@ export function Books(props: any) {
       <TouchableOpacity
         style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}
         onPress={() => {
+          bottomSheetRef.current.snapTo(1);
           setBookContext({ ...item });
+          setTimeout(() => {
+            bottomSheetRef.current.snapTo(0);
+          }, 100);
         }}>
         <Icons.Edit />
       </TouchableOpacity>,
@@ -40,11 +44,6 @@ export function Books(props: any) {
     );
   };
 
-  const bookApiProp = {
-    libraryName,
-    setBooks,
-  };
-
   useEffect(() => {
     const onValueChange = database()
       .ref(`/libraries/${Authentication.getUID()}/${libraryName}/books/`)
@@ -54,6 +53,7 @@ export function Books(props: any) {
 
         data.forEach(function (item) {
           tempLib.push(item);
+          return undefined;
         });
         setBooks(tempLib);
       });
@@ -74,6 +74,8 @@ export function Books(props: any) {
   const editBookProp = {
     bookContext,
     setBookContext,
+    bottomSheetRef,
+    libraryName,
   };
 
   return (
@@ -96,7 +98,7 @@ export function Books(props: any) {
           );
         }}
       />
-      <BottomSheet ref={sheetRef} snapPoints={[450, 300, 0]} borderRadius={10} renderContent={() => bookContext && <EditBook {...editBookProp} />} />
+      <BottomSheet ref={bottomSheetRef} snapPoints={[450, 0]} borderRadius={10} renderContent={() => bookContext && <EditBook {...editBookProp} />} />
     </View>
   );
 }

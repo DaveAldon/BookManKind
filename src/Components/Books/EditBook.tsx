@@ -2,13 +2,9 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-native";
 import * as GlobalStyles from "../../styles";
 import * as Buttons from "../Buttons";
-interface IForm {
-  author: string;
-  genre: string;
-  pages: string;
-  publicationYear: string;
-  title: string;
-}
+import UpdateBook from "../../hooks/UpdateBook";
+import { Authentication } from "../../hooks/Authentication";
+import database from "@react-native-firebase/database";
 
 interface IInputProp {
   value: string;
@@ -16,24 +12,50 @@ interface IInputProp {
   index: number;
 }
 
-export default function renderContent(props: any) {
-  const { bookContext, setBookContext } = props;
-  const { author, genre, pages, publicationYear, title } = bookContext._snapshot.value;
-
-  const defaultForm: IForm = {
-    author,
-    genre,
-    pages,
-    publicationYear,
-    title,
+interface IBookApiProp {
+  libraryName: string;
+  bookID: string;
+  bookData: {
+    author: string;
+    genre: string;
+    pages: string;
+    publicationYear: string;
+    title: string;
   };
+}
 
-  const [form, setForm] = useState<IForm>(defaultForm);
-  const [formPage, setFormPage] = useState("");
+interface IProp {
+  bookContext: any;
+  setBookContext: any;
+  bottomSheetRef: any;
+  libraryName: any;
+}
+
+export default function renderContent(props: IProp) {
+  const { bookContext, setBookContext, bottomSheetRef, libraryName } = props;
+  const { key } = bookContext._snapshot;
+  const bookID = key;
+
+  const [book, setBook] = useState(null);
+
+  useEffect(() => {
+    const reference = `/libraries/${Authentication.getUID()}/${libraryName}/books/${bookID}/`;
+    const onValueChange = database()
+      .ref(reference)
+      .on("value", (snapshot) => {
+        setBook({ ...snapshot.toJSON() });
+      });
+    // Stop listening for updates when no longer required
+    return () => database().ref(`/users/${Authentication.getUID()}`).off("value", onValueChange);
+  }, [Authentication.getUID(), bookID]);
 
   const updateForm = (key, value) => {
-    console.log(key, value);
-    setForm({ ...form, [key]: value });
+    const updateBookProp: IBookApiProp = {
+      libraryName,
+      bookID,
+      bookData: { ...book, [key]: value },
+    };
+    UpdateBook(updateBookProp);
   };
 
   function InputBlock(inputProps: IInputProp) {
@@ -46,7 +68,7 @@ export default function renderContent(props: any) {
           onChangeText={(text) => {
             updateForm(title, text);
           }}
-          value={form[title].toString()}
+          value={book[title].toString()}
           placeholder={"Enter information here..."}></TextInput>
       </View>
     );
@@ -60,16 +82,10 @@ export default function renderContent(props: any) {
         height: 450,
       }}>
       <View>
-        {Object.keys(form).map((keyName, i) => {
-          return InputBlock({ value: form[keyName], title: keyName, index: i });
-        })}
-      </View>
-      <View>
-        <Buttons.BlueButton
-          event={() => {
-            console.log(form);
-          }}
-        />
+        {book &&
+          Object.keys(book).map((keyName, i) => {
+            return InputBlock({ value: book[keyName], title: keyName, index: i });
+          })}
       </View>
     </View>
   );
