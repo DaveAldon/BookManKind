@@ -26,6 +26,6 @@ export default function UpdateBook(props: IBookApiProp) {
 export function DeleteBook(props: IBookApiProp) {
   const { libraryName, bookID } = props;
   const reference = `/libraries/${Authentication.getUID()}/${libraryName}/books/${bookID}/`;
-
+  console.log(reference);
   database().ref(reference).remove();
 }

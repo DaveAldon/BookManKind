@@ -29,6 +29,7 @@ function createLibrary(name: string) {
           publicationYear: "1986",
           pages: 342,
           genre: "Fiction",
+          index: 0,
         },
         {
           title: "Bad Book",
@@ -36,6 +37,7 @@ function createLibrary(name: string) {
           publicationYear: "2010",
           pages: 210,
           genre: "History",
+          index: 1,
         },
         {
           title: "anotha one",
@@ -43,6 +45,7 @@ function createLibrary(name: string) {
           publicationYear: "2010",
           pages: 210,
           genre: "",
+          index: 2,
         },
       ],
     })

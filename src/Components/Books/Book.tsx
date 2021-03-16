@@ -24,10 +24,10 @@ export function Book(props: any) {
   };
 
   const demos = library._snapshot.value;
-  const demosIncrememt = Math.round(100 / Object.keys(demos).length);
+  const demosIncrememt = Math.round(100 / Object.keys(demos).length + 3);
 
   for (let key in demos) {
-    if (demos[key] !== "" && key !== "id") pieProp.percentComplete += demosIncrememt;
+    if (demos[key] !== "" && key !== "id" && key !== "index") pieProp.percentComplete += demosIncrememt;
   }
 
   return (

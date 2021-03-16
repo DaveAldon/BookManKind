@@ -23,16 +23,15 @@ export function Books(props: any) {
   const bottomSheetRef = React.useRef(null);
   const [bookContext, setBookContext] = useState(null);
 
-  const rightButtons = ({ item, index }) => {
+  const rightButtons = ({ item }) => {
     return [
       <TouchableOpacity
         style={[{ backgroundColor: GlobalStyles.Colors.buttons.RED }, styles.swipeButtons]}
         onPress={() => {
           const deleteBookProp: IBookApiProp = {
             libraryName,
-            bookID: index,
+            bookID: item._snapshot.value.index.toString(),
           };
-          //console.log(index);
           DeleteBook(deleteBookProp);
         }}>
         <Icons.Delete />
@@ -77,8 +76,6 @@ export function Books(props: any) {
   }, [Authentication.getUID()]);
 
   const filterItems = (items, filter) => {
-    console.log("POOP", books);
-
     const result = items.filter((item) => {
       if (JSON.stringify(item) === "null") return false;
       item = item.toJSON();
