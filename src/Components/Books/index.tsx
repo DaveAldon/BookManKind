@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, TouchableHighlight, FlatList, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, Alert, FlatList, StyleSheet } from "react-native";
 import * as GlobalStyles from "../../styles";
 import Swipeable from "../../libraryOverrides/Swipeable";
 import * as Icons from "../../styles/icons";
@@ -28,11 +28,22 @@ export function Books(props: any) {
       <TouchableOpacity
         style={[{ backgroundColor: GlobalStyles.Colors.buttons.RED }, styles.swipeButtons]}
         onPress={() => {
-          const deleteBookProp: IBookApiProp = {
-            libraryName,
-            bookID: item._snapshot.value.index.toString(),
-          };
-          DeleteBook(deleteBookProp);
+          Alert.alert("Confirm Delete", "Are you sure you want to delete this book?", [
+            {
+              text: "Cancel",
+              style: "cancel",
+            },
+            {
+              text: "Yes",
+              onPress: () => {
+                const deleteBookProp: IBookApiProp = {
+                  libraryName,
+                  bookID: item._snapshot.value.index.toString(),
+                };
+                DeleteBook(deleteBookProp);
+              },
+            },
+          ]);
         }}>
         <Icons.Delete />
       </TouchableOpacity>,
@@ -113,7 +124,7 @@ export function Books(props: any) {
           );
         }}
       />
-      <BottomSheet ref={bottomSheetRef} snapPoints={[450, 0]} borderRadius={10} renderContent={() => bookContext && <EditBook {...editBookProp} />} />
+      <BottomSheet ref={bottomSheetRef} snapPoints={[500, 0]} borderRadius={10} renderContent={() => bookContext && <EditBook {...editBookProp} />} />
     </View>
   );
 }

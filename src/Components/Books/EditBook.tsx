@@ -5,6 +5,7 @@ import * as Buttons from "../Buttons";
 import UpdateBook from "../../hooks/BookManager";
 import { Authentication } from "../../hooks/Authentication";
 import database from "@react-native-firebase/database";
+import RenderHeader from "./BottomSheetHeader";
 
 interface IInputProp {
   value: string;
@@ -112,9 +113,10 @@ export default function renderContent(props: IProp) {
       style={{
         backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST,
         padding: 16,
-        height: 450,
+        height: "100%",
       }}>
-      <View style={{ height: "100%", justifyContent: "space-between" }}>
+      <RenderHeader />
+      <View style={{ height: "100%", justifyContent: "space-between", paddingVertical: 5, paddingBottom: 30 }}>
         {book &&
           Object.keys(book).map((keyName, i) => {
             return InputBlock({ value: book[keyName], title: keyName, index: i });
@@ -124,17 +126,4 @@ export default function renderContent(props: IProp) {
   );
 }
 
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST,
-    borderRadius: 20,
-    padding: 10,
-  },
-  swipeButtons: {
-    height: "100%",
-    borderRadius: 10,
-    width: "18%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
+const styles = StyleSheet.create({});
