@@ -1,10 +1,10 @@
 import database from "@react-native-firebase/database";
-import { Authentication } from "../hooks/Authentication";
+import { Authentication } from "./Authentication";
 
 interface IBookApiProp {
   libraryName: string;
   bookID: string;
-  bookData: IForm;
+  bookData?: IForm;
 }
 
 interface IForm {
@@ -18,8 +18,14 @@ interface IForm {
 export default function UpdateBook(props: IBookApiProp) {
   const { libraryName, bookID, bookData } = props;
   const { author, genre, pages, publicationYear, title } = bookData;
-
   const reference = `/libraries/${Authentication.getUID()}/${libraryName}/books/${bookID}/`;
 
   database().ref(reference).update({ author, genre, pages, publicationYear, title });
+}
+
+export function DeleteBook(props: IBookApiProp) {
+  const { libraryName, bookID } = props;
+  const reference = `/libraries/${Authentication.getUID()}/${libraryName}/books/${bookID}/`;
+
+  database().ref(reference).remove();
 }

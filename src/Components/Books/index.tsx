@@ -9,6 +9,12 @@ import { Authentication } from "../../hooks/Authentication";
 import { SearchBar } from "react-native-elements";
 import BottomSheet from "reanimated-bottom-sheet";
 import EditBook from "./EditBook";
+import { DeleteBook } from "../../hooks/BookManager";
+
+interface IBookApiProp {
+  libraryName: string;
+  bookID: string;
+}
 
 export function Books(props: any) {
   const { libraryName } = props.route.params;
@@ -17,9 +23,18 @@ export function Books(props: any) {
   const bottomSheetRef = React.useRef(null);
   const [bookContext, setBookContext] = useState(null);
 
-  const rightButtons = (item: any) => {
+  const rightButtons = ({ item, index }) => {
     return [
-      <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.RED }, styles.swipeButtons]}>
+      <TouchableOpacity
+        style={[{ backgroundColor: GlobalStyles.Colors.buttons.RED }, styles.swipeButtons]}
+        onPress={() => {
+          const deleteBookProp: IBookApiProp = {
+            libraryName,
+            bookID: index,
+          };
+          //console.log(index);
+          DeleteBook(deleteBookProp);
+        }}>
         <Icons.Delete />
       </TouchableOpacity>,
       <TouchableOpacity
@@ -38,7 +53,7 @@ export function Books(props: any) {
 
   const renderBooks = ({ item, index }) => {
     return (
-      <Swipeable rightButtons={rightButtons(item)}>
+      <Swipeable rightButtons={rightButtons({ ...{ item, index } })}>
         <Book key={index} {...item} />
       </Swipeable>
     );
@@ -62,7 +77,10 @@ export function Books(props: any) {
   }, [Authentication.getUID()]);
 
   const filterItems = (items, filter) => {
+    console.log("POOP", books);
+
     const result = items.filter((item) => {
+      if (JSON.stringify(item) === "null") return false;
       item = item.toJSON();
       const itemData = `${item.title.toLowerCase()} ${item.author.toLowerCase()} ${item.pages} ${item.publicationYear}`;
       return itemData.includes(filter.toLowerCase());

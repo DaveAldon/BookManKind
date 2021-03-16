@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-native";
 import * as GlobalStyles from "../../styles";
 import * as Buttons from "../Buttons";
-import UpdateBook from "../../hooks/UpdateBook";
+import UpdateBook from "../../hooks/BookManager";
 import { Authentication } from "../../hooks/Authentication";
 import database from "@react-native-firebase/database";
 
@@ -60,16 +60,38 @@ export default function renderContent(props: IProp) {
 
   function InputBlock(inputProps: IInputProp) {
     const { value, title, index } = inputProps;
+    const visibleTitle = title === "publicationYear" ? "Year Publ." : title;
     return (
-      <View key={index} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-        <Text style={{ textTransform: "capitalize", color: GlobalStyles.Colors.defaultText.color }}>{title}</Text>
+      <View key={index} style={{ flexDirection: "row", alignItems: "flex-start" }}>
+        <View
+          style={{
+            borderBottomLeftRadius: 10,
+            borderTopLeftRadius: 10,
+            justifyContent: "center",
+            alignItems: "center",
+            width: "20%",
+            height: 70,
+            backgroundColor: GlobalStyles.Colors.backgrounds.MEDIUMDARK,
+          }}>
+          <Text style={[{ fontSize: 16, fontWeight: "200", textTransform: "capitalize" }, GlobalStyles.Colors.defaultText]}>{visibleTitle}</Text>
+        </View>
         <TextInput
-          style={{ backgroundColor: GlobalStyles.Colors.backgrounds.MEDIUMDARK, color: GlobalStyles.Colors.defaultText.color, height: 30 }}
+          textAlign={"center"}
+          style={{
+            fontSize: 20,
+            borderTopRightRadius: 10,
+            borderBottomRightRadius: 10,
+            height: 70,
+            backgroundColor: GlobalStyles.Colors.backgrounds.DARKEST,
+            color: GlobalStyles.Colors.defaultText.color,
+            width: "80%",
+          }}
           onChangeText={(text) => {
             updateForm(title, text);
           }}
           value={book[title].toString()}
-          placeholder={"Enter information here..."}></TextInput>
+          placeholder={"Tap to enter info..."}
+          placeholderTextColor={GlobalStyles.Colors.text.light}></TextInput>
       </View>
     );
   }
@@ -77,11 +99,11 @@ export default function renderContent(props: IProp) {
   return (
     <View
       style={{
-        backgroundColor: GlobalStyles.Colors.backgrounds.DARKEST,
+        backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST,
         padding: 16,
         height: 450,
       }}>
-      <View>
+      <View style={{ height: "100%", justifyContent: "space-between" }}>
         {book &&
           Object.keys(book).map((keyName, i) => {
             return InputBlock({ value: book[keyName], title: keyName, index: i });

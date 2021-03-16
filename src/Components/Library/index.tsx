@@ -108,7 +108,7 @@ export default function Library(props: IProp) {
         data={libraries}
         renderItem={renderLibrary}
         keyExtractor={(item, index) => {
-          return index.toString();
+          return item.key;
         }}
       />
     </View>
