@@ -31,6 +31,14 @@ interface IProp {
   libraryName: any;
 }
 
+const demoOrder = {
+  title: null,
+  author: null,
+  publicationYear: null,
+  pages: null,
+  genre: null,
+};
+
 export default function renderContent(props: IProp) {
   const { bookContext, setBookContext, bottomSheetRef, libraryName } = props;
   const { key } = bookContext._snapshot;
@@ -43,7 +51,9 @@ export default function renderContent(props: IProp) {
     const onValueChange = database()
       .ref(reference)
       .on("value", (snapshot) => {
-        setBook({ ...snapshot.toJSON() });
+        // This lets us re-order the object key/values
+        const orderedDemographics = Object.assign(demoOrder, snapshot.toJSON());
+        setBook({ ...orderedDemographics });
       });
     // Stop listening for updates when no longer required
     return () => database().ref(`/users/${Authentication.getUID()}`).off("value", onValueChange);
@@ -61,8 +71,9 @@ export default function renderContent(props: IProp) {
   function InputBlock(inputProps: IInputProp) {
     const { value, title, index } = inputProps;
     const visibleTitle = title === "publicationYear" ? "Year Publ." : title;
+    if (title === "index") return;
     return (
-      <View key={index} style={{ flexDirection: "row", alignItems: "flex-start" }}>
+      <View key={index} style={{ flexDirection: "row" }}>
         <View
           style={{
             borderBottomLeftRadius: 10,
@@ -70,7 +81,7 @@ export default function renderContent(props: IProp) {
             justifyContent: "center",
             alignItems: "center",
             width: "20%",
-            height: 70,
+            height: 60,
             backgroundColor: GlobalStyles.Colors.backgrounds.MEDIUMDARK,
           }}>
           <Text style={[{ fontSize: 16, fontWeight: "200", textTransform: "capitalize" }, GlobalStyles.Colors.defaultText]}>{visibleTitle}</Text>
@@ -81,7 +92,7 @@ export default function renderContent(props: IProp) {
             fontSize: 20,
             borderTopRightRadius: 10,
             borderBottomRightRadius: 10,
-            height: 70,
+            height: 60,
             backgroundColor: GlobalStyles.Colors.backgrounds.DARKEST,
             color: GlobalStyles.Colors.defaultText.color,
             width: "80%",
