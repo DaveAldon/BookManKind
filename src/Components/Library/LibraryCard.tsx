@@ -19,12 +19,22 @@ export function LibraryCard(props: IProp) {
   const { value, key } = props._snapshot;
   const { admins, books } = value;
   const { email } = admins[0];
+  const [bookCount, setBookCount] = useState(0);
+
+  useEffect(() => {
+    let count = 0;
+    books &&
+      books.forEach((book) => {
+        if (JSON.stringify(book) !== "null") count++;
+      });
+    setBookCount(count);
+  }, [books]);
 
   return (
     <View style={styles.card}>
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" }}>
         <Text style={[{ fontSize: 20 }, GlobalStyles.Colors.defaultText]}>{key}</Text>
-        <Text style={[{ fontSize: 20 }, GlobalStyles.Colors.defaultText]}>{(books && books.length) || 0} Books</Text>
+        <Text style={[{ fontSize: 20 }, GlobalStyles.Colors.defaultText]}>{bookCount} Books</Text>
       </View>
       <Text style={GlobalStyles.Colors.defaultText}>Created by {email}</Text>
     </View>
