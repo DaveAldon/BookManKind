@@ -111,9 +111,8 @@ export default function renderContent(props: IProp) {
     <View
       style={{
         backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST,
-        height: "100%",
       }}>
-      <View style={{ height: "100%", paddingVertical: 5, paddingBottom: 30 }}>
+      <View style={{ paddingVertical: 5, paddingBottom: 30 }}>
         {book &&
           Object.keys(book).map((keyName, i) => {
             return InputBlock({ value: book[keyName], title: keyName, index: i });

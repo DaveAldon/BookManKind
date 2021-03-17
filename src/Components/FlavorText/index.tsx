@@ -6,9 +6,18 @@ interface IFlavorProps {
   text: string;
   name: string;
   style?: any;
+  numberOfLines?: number;
+  textAlign?: string;
 }
 
 export default function FlavorText(props: IFlavorProps) {
-  const { text, name, style } = props;
-  return <Text style={[style, { color: text ? GlobalStyles.Colors.defaultText.color : GlobalStyles.Colors.text.yellow }]}>{text || name || ""}</Text>;
+  const { text, name, style, numberOfLines, textAlign } = props;
+  return (
+    <Text
+      adjustsFontSizeToFit
+      numberOfLines={numberOfLines || null}
+      style={[style, { color: text ? GlobalStyles.Colors.defaultText.color : GlobalStyles.Colors.text.yellow, textAlign: textAlign || "center" }]}>
+      {text || name || ""}
+    </Text>
+  );
 }

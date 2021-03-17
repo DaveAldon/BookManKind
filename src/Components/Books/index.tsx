@@ -26,12 +26,8 @@ export function Books(props: any) {
 
   // Bottomsheet state/hooks
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["5%", "60%"], []);
+  const snapPoints = useMemo(() => ["10%", "60%"], []);
   const snapTo = (index: number) => bottomSheetRef.current.snapTo(index);
-
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
 
   const rightButtons = ({ item }) => {
     return [
@@ -64,7 +60,7 @@ export function Books(props: any) {
           setBookContext({ ...item });
           setTimeout(() => {
             snapTo(1);
-          }, 1000);
+          }, 200);
         }}>
         <Icons.Edit />
       </TouchableOpacity>,
@@ -134,9 +130,15 @@ export function Books(props: any) {
           );
         }}
       />
-      <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints} onChange={handleSheetChanges} handleComponent={() => <RenderHeader />}>
+      <BottomSheet
+        backgroundComponent={() => <View></View>}
+        style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST }}
+        ref={bottomSheetRef}
+        index={0}
+        snapPoints={snapPoints}
+        handleComponent={() => <RenderHeader />}>
         <View style={{ paddingHorizontal: 16, backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, flex: 1 }}>
-          <View style={{}}>
+          <View style={{ marginBottom: 30 }}>
             <BlueButton style={{ height: 60 }} onPress={() => {}}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Icons.Book />

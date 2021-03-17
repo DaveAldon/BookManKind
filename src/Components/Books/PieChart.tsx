@@ -24,9 +24,10 @@ export default function Pie(props: IPieProp) {
 
   return (
     <View style={styles.container}>
-      <PieChart valueAccessor={({ item }) => item.amount} spacing={0} outerRadius={"70%"} style={{ height: 100, width: 100 }} data={data} />
-      <View style={{ position: "absolute" }}>
+      <PieChart valueAccessor={({ item }) => item.amount} spacing={0} outerRadius={"60%"} style={{ height: 170, width: 170 }} data={data} />
+      <View style={{ position: "absolute", alignItems: "center" }}>
         <Text style={{ fontWeight: "800", color: percentComplete === 100 ? GlobalStyles.Colors.text.green : GlobalStyles.Colors.text.yellow }}>{percentComplete}%</Text>
+        <Text style={{ fontWeight: "300", color: percentComplete === 100 ? GlobalStyles.Colors.text.green : GlobalStyles.Colors.text.yellow }}>Completed</Text>
       </View>
     </View>
   );
