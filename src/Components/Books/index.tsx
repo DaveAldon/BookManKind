@@ -26,7 +26,7 @@ export function Books(props: any) {
 
   // Bottomsheet state/hooks
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["10%", "60%"], []);
+  const snapPoints = useMemo(() => ["10%", "100%"], []);
   const snapTo = (index: number) => bottomSheetRef.current.snapTo(index);
 
   const rightButtons = ({ item }) => {

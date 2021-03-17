@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
 import * as GlobalStyles from "../../styles";
-import * as Buttons from "../Buttons";
 import UpdateBook from "../../hooks/BookManager";
 import { Authentication } from "../../hooks/Authentication";
 import database from "@react-native-firebase/database";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 interface IInputProp {
   value: string;
@@ -87,6 +87,8 @@ export default function renderContent(props: IProp) {
           <Text style={[{ fontSize: 16, fontWeight: "200", textTransform: "capitalize" }, GlobalStyles.Colors.defaultText]}>{visibleTitle}</Text>
         </View>
         <TextInput
+          multiline={false}
+          returnKeyType={"done"}
           textAlign={"center"}
           style={{
             fontSize: 20,
@@ -108,17 +110,14 @@ export default function renderContent(props: IProp) {
   }
 
   return (
-    <View
-      style={{
-        backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST,
-      }}>
-      <View style={{ paddingVertical: 5, paddingBottom: 30 }}>
+    <KeyboardAwareScrollView>
+      <View style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, paddingVertical: 5, paddingBottom: 30 }}>
         {book &&
           Object.keys(book).map((keyName, i) => {
             return InputBlock({ value: book[keyName], title: keyName, index: i });
           })}
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 
