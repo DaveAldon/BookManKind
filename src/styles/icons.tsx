@@ -25,5 +25,8 @@ function Genre({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
 function Edit({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
   return <Feather name="edit" size={size} color={color} />;
 }
+function Book({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
+  return <Entypo name="open-book" size={size} color={color} />;
+}
 
-export { Delete, Share, Calendar, Pages, Genre, Edit };
+export { Delete, Share, Calendar, Pages, Genre, Edit, Book };

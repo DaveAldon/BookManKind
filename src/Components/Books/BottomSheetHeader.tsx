@@ -15,7 +15,7 @@ export default function RenderHeader() {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST,
-    paddingVertical: 5,
+    paddingVertical: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     height: 30,
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   panelHandle: {
     width: 40,
-    height: 8,
+    height: 5,
     borderRadius: 4,
     backgroundColor: GlobalStyles.Colors.backgrounds.DARKEST,
     marginBottom: 10,

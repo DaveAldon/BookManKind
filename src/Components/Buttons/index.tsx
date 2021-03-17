@@ -3,17 +3,16 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-nativ
 import * as GlobalStyles from "../../styles";
 
 interface IButton {
-  event: any;
-  textStyle?: any;
+  onPress: any;
+  style?: any;
+  children: React.ReactNode;
 }
 
-export function BlueButton(props: any) {
-  const { textStyle, event } = props;
+export function BlueButton(props: IButton) {
+  const { onPress, style } = props;
   return (
-    <TouchableOpacity onPress={event} style={{ backgroundColor: GlobalStyles.Colors.buttons.BLUE, height: 50, borderRadius: 10 }}>
-      <View style={{ justifyContent: "center", alignItems: "center", height: "100%" }}>
-        <Text style={[textStyle, GlobalStyles.Colors.defaultText]}>what's the buzz</Text>
-      </View>
+    <TouchableOpacity onPress={onPress} style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE, height: 50, borderRadius: 10 }, style]}>
+      <View style={{ justifyContent: "center", alignItems: "center", height: "100%" }}>{props.children}</View>
     </TouchableOpacity>
   );
 }

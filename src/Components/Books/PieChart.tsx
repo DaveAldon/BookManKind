@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, ScrollView, StatusBar, Text, View } from "react-native";
-import { Text as SVGText } from "react-native-svg";
 import * as GlobalStyles from "../../styles";
 import { PieChart } from "react-native-svg-charts";
 

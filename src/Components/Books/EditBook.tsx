@@ -5,7 +5,6 @@ import * as Buttons from "../Buttons";
 import UpdateBook from "../../hooks/BookManager";
 import { Authentication } from "../../hooks/Authentication";
 import database from "@react-native-firebase/database";
-import RenderHeader from "./BottomSheetHeader";
 
 interface IInputProp {
   value: string;
@@ -74,7 +73,7 @@ export default function renderContent(props: IProp) {
     const visibleTitle = title === "publicationYear" ? "Year Publ." : title;
     if (title === "index") return;
     return (
-      <View key={index} style={{ flexDirection: "row" }}>
+      <View key={index} style={{ flexDirection: "row", marginBottom: 5 }}>
         <View
           style={{
             borderBottomLeftRadius: 10,
@@ -112,11 +111,9 @@ export default function renderContent(props: IProp) {
     <View
       style={{
         backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST,
-        padding: 16,
         height: "100%",
       }}>
-      <RenderHeader />
-      <View style={{ height: "100%", justifyContent: "space-between", paddingVertical: 5, paddingBottom: 30 }}>
+      <View style={{ height: "100%", paddingVertical: 5, paddingBottom: 30 }}>
         {book &&
           Object.keys(book).map((keyName, i) => {
             return InputBlock({ value: book[keyName], title: keyName, index: i });

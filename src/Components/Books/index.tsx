@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, Alert, FlatList, StyleSheet } from "react-native";
 import * as GlobalStyles from "../../styles";
 import Swipeable from "../../libraryOverrides/Swipeable";
@@ -7,9 +7,11 @@ import { Book } from "./Book";
 import database from "@react-native-firebase/database";
 import { Authentication } from "../../hooks/Authentication";
 import { SearchBar } from "react-native-elements";
-import BottomSheet from "reanimated-bottom-sheet";
 import EditBook from "./EditBook";
 import { DeleteBook } from "../../hooks/BookManager";
+import BottomSheet from "@gorhom/bottom-sheet";
+import RenderHeader from "./BottomSheetHeader";
+import { BlueButton } from "../Buttons";
 
 interface IBookApiProp {
   libraryName: string;
@@ -20,8 +22,16 @@ export function Books(props: any) {
   const { libraryName } = props.route.params;
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
-  const bottomSheetRef = React.useRef(null);
   const [bookContext, setBookContext] = useState(null);
+
+  // Bottomsheet state/hooks
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ["5%", "60%"], []);
+  const snapTo = (index: number) => bottomSheetRef.current.snapTo(index);
+
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
 
   const rightButtons = ({ item }) => {
     return [
@@ -50,11 +60,11 @@ export function Books(props: any) {
       <TouchableOpacity
         style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}
         onPress={() => {
-          bottomSheetRef.current.snapTo(1);
+          snapTo(0);
           setBookContext({ ...item });
           setTimeout(() => {
-            bottomSheetRef.current.snapTo(0);
-          }, 100);
+            snapTo(1);
+          }, 1000);
         }}>
         <Icons.Edit />
       </TouchableOpacity>,
@@ -110,7 +120,7 @@ export function Books(props: any) {
         data={filterItems(books, search)}
         renderItem={renderBooks}
         keyExtractor={(item, index) => {
-          return `${index}`;
+          return item.key;
         }}
         ListHeaderComponent={<SearchBar placeholder="Search here..." value={search} darkTheme round onChangeText={setSearch} autoCorrect={false} />}
         ItemSeparatorComponent={() => {
@@ -124,7 +134,19 @@ export function Books(props: any) {
           );
         }}
       />
-      <BottomSheet ref={bottomSheetRef} snapPoints={[500, 0]} borderRadius={10} renderContent={() => bookContext && <EditBook {...editBookProp} />} />
+      <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints} onChange={handleSheetChanges} handleComponent={() => <RenderHeader />}>
+        <View style={{ paddingHorizontal: 16, backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, flex: 1 }}>
+          <View style={{}}>
+            <BlueButton style={{ height: 60 }} onPress={() => {}}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Icons.Book />
+                <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Add New Book</Text>
+              </View>
+            </BlueButton>
+          </View>
+          {bookContext && <EditBook {...editBookProp} />}
+        </View>
+      </BottomSheet>
     </View>
   );
 }
