@@ -5,14 +5,11 @@ import UpdateBook from "../../hooks/BookManager";
 import { Authentication } from "../../hooks/Authentication";
 import database from "@react-native-firebase/database";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import InputBlock from "./InputBlock";
 
 interface IInputProp {
   value: string;
   title: string;
   index: number;
-  updateForm: any;
-  book: any;
 }
 
 interface IBookApiProp {
@@ -71,21 +68,53 @@ export default function renderContent(props: IProp) {
     UpdateBook(updateBookProp);
   };
 
+  function InputBlock(inputProps: IInputProp) {
+    const { value, title, index } = inputProps;
+    const visibleTitle = title === "publicationYear" ? "Year Publ." : title;
+    if (title === "index") return;
+    return (
+      <View key={index} style={{ flexDirection: "row", marginBottom: 5 }}>
+        <View
+          style={{
+            borderBottomLeftRadius: 10,
+            borderTopLeftRadius: 10,
+            justifyContent: "center",
+            alignItems: "center",
+            width: "20%",
+            height: 60,
+            backgroundColor: GlobalStyles.Colors.backgrounds.MEDIUMDARK,
+          }}>
+          <Text style={[{ fontSize: 16, fontWeight: "200", textTransform: "capitalize" }, GlobalStyles.Colors.defaultText]}>{visibleTitle}</Text>
+        </View>
+        <TextInput
+          multiline={false}
+          returnKeyType={"done"}
+          textAlign={"center"}
+          style={{
+            fontSize: 20,
+            borderTopRightRadius: 10,
+            borderBottomRightRadius: 10,
+            height: 60,
+            backgroundColor: GlobalStyles.Colors.backgrounds.DARKEST,
+            color: GlobalStyles.Colors.defaultText.color,
+            width: "80%",
+          }}
+          onChangeText={(text) => {
+            updateForm(title, text);
+          }}
+          value={book[title].toString()}
+          placeholder={"Tap to enter info..."}
+          placeholderTextColor={GlobalStyles.Colors.text.light}></TextInput>
+      </View>
+    );
+  }
+
   return (
     <KeyboardAwareScrollView>
       <View style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, paddingVertical: 5, paddingBottom: 30 }}>
         {book &&
-          Object.keys(book).map((keyName, index) => {
-            if (keyName !== "index") {
-              const inputProp: IInputProp = {
-                value: book[keyName],
-                title: keyName,
-                index,
-                updateForm,
-                book,
-              };
-              return <InputBlock {...inputProp} />;
-            }
+          Object.keys(book).map((keyName, i) => {
+            return InputBlock({ value: book[keyName], title: keyName, index: i });
           })}
       </View>
     </KeyboardAwareScrollView>

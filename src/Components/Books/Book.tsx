@@ -28,14 +28,14 @@ export function Book(props: any) {
 
   return (
     <View style={{ backgroundColor: GlobalStyles.Colors.backgrounds.MEDIUMDARK, borderRadius: 10, flexDirection: "row", height: 130 }}>
-      <View style={{ width: "33%", backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, borderRadius: 10, alignItems: "center", justifyContent: "center" }}>
+      <View style={{ width: "33.333%", backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, borderRadius: 10, alignItems: "center", justifyContent: "center" }}>
         <FlavorText {...{ text: title, name: "Title", style: [{ fontSize: baseFontSize - 2, fontWeight: "700" }, GlobalStyles.Colors.defaultText], numberOfLines: 3 }} />
         <FlavorText {...{ text: author, name: "Author", style: [{ fontSize: baseFontSize - 4, fontWeight: "300" }, GlobalStyles.Colors.defaultText], numberOfLines: 2 }} />
       </View>
-      <View style={{ width: "33%", alignItems: "center", justifyContent: "center" }}>
+      <View style={{ width: "33.333%", alignItems: "center", justifyContent: "center" }}>
         <Pie {...pieProp} />
       </View>
-      <View style={{ flexDirection: "column", backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, borderRadius: 10, width: "33%", justifyContent: "center" }}>
+      <View style={{ flexDirection: "column", backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, borderRadius: 10, width: "33.333%", justifyContent: "center" }}>
         <DemographicBlock>
           <Icons.Calendar size={baseFontSize} />
           <FlavorText {...{ text: publicationYear, name: "Publ. Year", style: styles.metaText, textAlign: "right" }} />

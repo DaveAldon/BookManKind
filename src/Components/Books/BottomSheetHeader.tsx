@@ -2,9 +2,14 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import * as GlobalStyles from "../../styles";
 
-export default function RenderHeader() {
+interface IProp {
+  style?: any;
+}
+
+export default function RenderHeader(props: IProp) {
+  const { style } = props;
   return (
-    <View style={styles.header}>
+    <View style={[styles.header, style]}>
       <View style={styles.panelHeader}>
         <View style={styles.panelHandle} />
       </View>

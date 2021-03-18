@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, Alert, FlatList, StyleSheet } from "react-native";
 import * as GlobalStyles from "../../styles";
 import Swipeable from "../../libraryOverrides/Swipeable";
@@ -17,6 +17,12 @@ interface IBookApiProp {
   libraryName: string;
   bookID: string;
 }
+
+const editingMode = {
+  new: GlobalStyles.Colors.backgrounds.GREEN,
+  edit: GlobalStyles.Colors.backgrounds.BLUE,
+  default: GlobalStyles.Colors.backgrounds.LIGHTEST,
+};
 
 export function Books(props: any) {
   const { libraryName } = props.route.params;

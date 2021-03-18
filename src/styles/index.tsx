@@ -20,6 +20,8 @@ export const Colors = {
     DARKEST_OPAQUE: "rgba(47, 49, 54, 0.8)",
     MEDIUMDARK: "#36393F",
     LIGHTEST: "#40444C",
+    GREEN: "#1c8531",
+    BLUE: "#006399",
   },
   buttons: {
     RED: "#ff4545",
