@@ -31,5 +31,8 @@ function Book({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
 function Done({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
   return <AntDesign name="checkcircle" size={size} color={color} />;
 }
+function Thinking({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
+  return <MaterialCommunityIcons name="thought-bubble" size={size} color={color} />;
+}
 
-export { Delete, Share, Calendar, Pages, Genre, Edit, Book, Done };
+export { Delete, Share, Calendar, Pages, Genre, Edit, Book, Done, Thinking };

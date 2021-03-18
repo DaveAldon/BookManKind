@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import * as GlobalStyles from "../../styles";
 import { NewBook } from "../../hooks/BookManager";
-import { Authentication } from "../../hooks/Authentication";
-import database from "@react-native-firebase/database";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import InputBlock from "./InputBlock";
-import { GreenButton } from "../Buttons";
+import { GreenButton, DeactivatedButton } from "../Buttons";
 import * as Icons from "../../styles/icons";
 
 interface IInputProp {
@@ -52,12 +50,20 @@ const defaultForm = {
 
 export default function renderContent(props: IProp) {
   const { bottomSheetRefNew, libraryName } = props;
-
+  const [canSubmit, setCanSubmit] = useState(false);
   const [book, setBook] = useState({ ...defaultForm });
 
   const updateForm = (key, value) => {
     setBook({ ...book, [key]: value });
   };
+
+  useEffect(() => {
+    let found = false;
+    Object.keys(book).some((key) => {
+      if (book[key] !== "") found = true;
+    });
+    setCanSubmit(found);
+  }, [book]);
 
   function SubmitBook() {
     const newBookProp: IBookApiProp = {
@@ -89,17 +95,28 @@ export default function renderContent(props: IProp) {
             }
           })}
       </View>
-      <GreenButton
-        style={{ height: 60 }}
-        onPress={() => {
-          SubmitBook();
-          //bottomSheetRefNew.current.collapse();
-        }}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Icons.Done />
-          <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Done!</Text>
-        </View>
-      </GreenButton>
+      {canSubmit ? (
+        <GreenButton
+          style={{ height: 60 }}
+          onPress={() => {
+            bottomSheetRefNew.current.snapTo(0);
+            setTimeout(() => {
+              SubmitBook();
+            }, 1000);
+          }}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Icons.Done />
+            <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Done!</Text>
+          </View>
+        </GreenButton>
+      ) : (
+        <DeactivatedButton style={{ height: 60 }} onPress={() => {}}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Icons.Thinking />
+            <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Add at least one piece of information</Text>
+          </View>
+        </DeactivatedButton>
+      )}
     </KeyboardAwareScrollView>
   );
 }

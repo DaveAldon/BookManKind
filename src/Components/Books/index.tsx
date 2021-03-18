@@ -9,7 +9,7 @@ import { Authentication } from "../../hooks/Authentication";
 import { SearchBar } from "react-native-elements";
 import EditBook from "./EditBook";
 import { DeleteBook } from "../../hooks/BookManager";
-import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import RenderHeader from "./BottomSheetHeader";
 import { BlueButton } from "../Buttons";
 import NewBook from "./NewBook";
@@ -28,7 +28,9 @@ export function Books(props: any) {
 
   // Bottomsheet state/hooks
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const bottomSheetRefNew = useRef<BottomSheet>(null);
+  //const bottomSheetRefNew = useRef<BottomSheet>(null);
+  const bottomSheetRefNew = useRef<BottomSheetModal>(null);
+
   const snapPoints = useMemo(() => [getStatusBarHeight() >= 44 ? "10%" : "12%", "100%"], []);
   const snapPointsNew = useMemo(() => [0, "100%"], []);
   const snapTo = (index: number) => bottomSheetRef.current.snapTo(index);
@@ -208,5 +210,10 @@ const styles = StyleSheet.create({
     width: "18%",
     justifyContent: "center",
     alignItems: "center",
+  },
+  contentContainerStyle: {
+    paddingTop: 12,
+    paddingHorizontal: 24,
+    backgroundColor: "white",
   },
 });
