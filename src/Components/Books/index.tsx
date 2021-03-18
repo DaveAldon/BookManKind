@@ -119,8 +119,8 @@ export function Books(props: any) {
       return itemData.includes(filter.toLowerCase());
     });
 
+    // Sort by date
     const sortedResult = result.sort((a, b) => {
-      console.log("ass", a.toJSON().dateAdded);
       return a.toJSON().dateAdded < b.toJSON().dateAdded;
     });
 

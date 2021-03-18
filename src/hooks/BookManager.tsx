@@ -6,6 +6,7 @@ interface IBookApiProp {
   libraryName: string;
   bookID?: string;
   bookData?: IForm;
+  dateAdded?: any;
 }
 
 interface IForm {
@@ -17,13 +18,11 @@ interface IForm {
 }
 
 export default function UpdateBook(props: IBookApiProp) {
-  const { libraryName, bookID, bookData } = props;
+  const { libraryName, bookID, bookData, dateAdded } = props;
   const { author, genre, pages, publicationYear, title } = bookData;
   const index = bookID;
-  const dateAdded = Date.now();
-  console.log(dateAdded);
   const reference = `/libraries/${Authentication.getUID()}/${libraryName}/books/${bookID}/`;
-  database().ref(reference).update({ author, genre, pages, publicationYear, title, index, dateAdded });
+  database().ref(reference).update({ author, genre, pages, publicationYear, title, index });
 }
 
 export function DeleteBook(props: IBookApiProp) {
@@ -41,24 +40,19 @@ export function DeleteBook(props: IBookApiProp) {
 }
 
 export function NewBook(props: IBookApiProp) {
-  const { libraryName } = props;
+  const { libraryName, bookData } = props;
+  const { author, genre, pages, publicationYear, title } = bookData;
+  const dateAdded = Date.now();
+  const index = GUID();
   const countReference = `/libraries/${Authentication.getUID()}/${libraryName}/metaData`;
+
   database()
     .ref(countReference)
     .once("value", (snapshotSize) => {
       const size = snapshotSize.toJSON()["size"] + 1;
       database().ref(countReference).update({ size });
 
-      const updateProp: IBookApiProp = {
-        ...props,
-        bookID: GUID(),
-      };
-      UpdateBook(updateProp);
+      const reference = `/libraries/${Authentication.getUID()}/${libraryName}/books/${index}/`;
+      database().ref(reference).update({ author, genre, pages, publicationYear, title, dateAdded, index });
     });
-
-  /* const newBookProp = {
-    ...props,
-    bookID
-  }
-  UpdateBook(props); */
 }
