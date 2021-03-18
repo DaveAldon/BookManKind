@@ -16,3 +16,12 @@ export function BlueButton(props: IButton) {
     </TouchableOpacity>
   );
 }
+
+export function GreenButton(props: IButton) {
+  const { onPress, style } = props;
+  return (
+    <TouchableOpacity onPress={onPress} style={[{ backgroundColor: GlobalStyles.Colors.buttons.GREEN, height: 50, borderRadius: 10 }, style]}>
+      <View style={{ justifyContent: "center", alignItems: "center", height: "100%" }}>{props.children}</View>
+    </TouchableOpacity>
+  );
+}

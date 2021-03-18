@@ -20,7 +20,7 @@ export default function RenderHeader(props: IProp) {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST,
-    paddingVertical: 10,
+    paddingVertical: 20,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     height: 30,

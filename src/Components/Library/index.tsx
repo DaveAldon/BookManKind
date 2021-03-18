@@ -6,6 +6,7 @@ import * as GlobalStyles from "../../styles";
 import { LibraryCard } from "./LibraryCard";
 import Swipeable from "../../libraryOverrides/Swipeable";
 import * as Icons from "../../styles/icons";
+import GUID from "../../hooks/GUIDGenerator";
 
 interface IProp {
   navigation: any;
@@ -15,39 +16,48 @@ interface IProp {
 function createLibrary(name: string) {
   const username = Authentication.getUID();
   const path = `/libraries/${username}/${name}`;
+  const sampleGUIDs = {
+    one: GUID(),
+    two: GUID(),
+    three: GUID(),
+  };
   database()
     .ref(path)
     .update({
       admins: [{ uid: Authentication.getUID(), email: Authentication.getUser().user.email }],
       metaData: {
         createdOn: new Date().getTime(),
+        size: 3,
       },
-      books: [
-        {
+      books: {
+        [sampleGUIDs.one]: {
           title: "Ben Hur",
           author: "Lewis Wallace",
           publicationYear: "1880",
           pages: 342,
           genre: "Historical Fiction",
-          index: 0,
+          index: sampleGUIDs.one,
+          dateAdded: Date.now(),
         },
-        {
+        [sampleGUIDs.two]: {
           title: "Owd Bob: the grey dog of Kenmuir",
           author: "Alfred Ollivant",
           publicationYear: "1898",
           pages: 320,
           genre: "Fiction",
-          index: 1,
+          index: sampleGUIDs.two,
+          dateAdded: Date.now(),
         },
-        {
+        [sampleGUIDs.three]: {
           title: "Dulce Domum",
           author: "John Francis O'Donnell",
           publicationYear: "1861",
           pages: "",
-          genre: "Poetry",
-          index: 1861,
+          genre: "",
+          index: sampleGUIDs.three,
+          dateAdded: Date.now(),
         },
-      ],
+      },
     })
     .then(() => console.log("Data updated."));
 }

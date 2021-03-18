@@ -4,6 +4,7 @@ import * as GlobalStyles from "../../styles";
 import * as Icons from "../../styles/icons";
 import Pie from "./PieChart";
 import FlavorText from "../FlavorText";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface IDemo {
   children: Array<React.ReactNode>;
@@ -12,7 +13,8 @@ interface IDemo {
 const baseFontSize = 20;
 
 export function Book(props: any) {
-  const library = props;
+  const { item, updateBottomSheetModeInternal } = props;
+  const library = item;
   const { title, author, publicationYear, pages, genre } = library._snapshot.value;
 
   const pieProp = {
@@ -20,10 +22,10 @@ export function Book(props: any) {
   };
 
   const demos = library._snapshot.value;
-  const demosIncrememt = Math.round(100 / Object.keys(demos).length + 3);
+  const demosIncrememt = 20; // Math.round(100 / Object.keys(demos).length + 6);
 
   for (let key in demos) {
-    if (demos[key] !== "" && key !== "id" && key !== "index") pieProp.percentComplete += demosIncrememt;
+    if (demos[key] !== "" && key !== "id" && key !== "index" && key !== "dateAdded") pieProp.percentComplete += demosIncrememt;
   }
 
   return (
@@ -32,8 +34,14 @@ export function Book(props: any) {
         <FlavorText {...{ text: title, name: "Title", style: [{ fontSize: baseFontSize - 2, fontWeight: "700" }, GlobalStyles.Colors.defaultText], numberOfLines: 3 }} />
         <FlavorText {...{ text: author, name: "Author", style: [{ fontSize: baseFontSize - 4, fontWeight: "300" }, GlobalStyles.Colors.defaultText], numberOfLines: 2 }} />
       </View>
+
       <View style={{ width: "33.333%", alignItems: "center", justifyContent: "center" }}>
-        <Pie {...pieProp} />
+        <TouchableOpacity
+          onPress={() => {
+            updateBottomSheetModeInternal();
+          }}>
+          <Pie {...pieProp} />
+        </TouchableOpacity>
       </View>
       <View style={{ flexDirection: "column", backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, borderRadius: 10, width: "33.333%", justifyContent: "center" }}>
         <DemographicBlock>

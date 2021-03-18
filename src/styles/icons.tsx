@@ -28,5 +28,8 @@ function Edit({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
 function Book({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
   return <Entypo name="open-book" size={size} color={color} />;
 }
+function Done({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
+  return <AntDesign name="checkcircle" size={size} color={color} />;
+}
 
-export { Delete, Share, Calendar, Pages, Genre, Edit, Book };
+export { Delete, Share, Calendar, Pages, Genre, Edit, Book, Done };

@@ -6,6 +6,8 @@ import { Authentication } from "../../hooks/Authentication";
 import database from "@react-native-firebase/database";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import InputBlock from "./InputBlock";
+import { BlueButton, GreenButton } from "../Buttons";
+import * as Icons from "../../styles/icons";
 
 interface IInputProp {
   value: string;
@@ -73,10 +75,10 @@ export default function renderContent(props: IProp) {
 
   return (
     <KeyboardAwareScrollView>
-      <View style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, paddingVertical: 5, paddingBottom: 30 }}>
+      <View style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, paddingVertical: 5, paddingBottom: 20 }}>
         {book &&
           Object.keys(book).map((keyName, index) => {
-            if (keyName !== "index") {
+            if (keyName !== "index" && keyName !== "dateAdded") {
               const inputProp: IInputProp = {
                 value: book[keyName],
                 title: keyName,
@@ -84,10 +86,20 @@ export default function renderContent(props: IProp) {
                 updateForm,
                 book,
               };
-              return <InputBlock {...inputProp} />;
+              return <InputBlock key={index} {...inputProp} />;
             }
           })}
       </View>
+      <GreenButton
+        style={{ height: 60 }}
+        onPress={() => {
+          bottomSheetRef.current.collapse();
+        }}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Icons.Done />
+          <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Done!</Text>
+        </View>
+      </GreenButton>
     </KeyboardAwareScrollView>
   );
 }

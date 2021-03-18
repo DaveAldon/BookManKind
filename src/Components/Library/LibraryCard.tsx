@@ -24,7 +24,7 @@ export function LibraryCard(props: IProp) {
   useEffect(() => {
     let count = 0;
     books &&
-      books.forEach((book) => {
+      Object.keys(books).forEach((book) => {
         if (JSON.stringify(book) !== "null") count++;
       });
     setBookCount(count);

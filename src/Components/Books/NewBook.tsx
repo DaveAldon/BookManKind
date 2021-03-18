@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
 import * as GlobalStyles from "../../styles";
-import UpdateBook from "../../hooks/BookManager";
+import { NewBook } from "../../hooks/BookManager";
 import { Authentication } from "../../hooks/Authentication";
 import database from "@react-native-firebase/database";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import InputBlock from "./InputBlock";
+import { GreenButton } from "../Buttons";
+import * as Icons from "../../styles/icons";
 
 interface IInputProp {
   value: string;
   title: string;
   index: number;
+  updateForm: any;
+  book: any;
 }
 
 interface IBookApiProp {
   libraryName: string;
-  bookID: string;
+  bookId?: string;
   bookData: {
     author: string;
     genre: string;
@@ -25,9 +30,7 @@ interface IBookApiProp {
 }
 
 interface IProp {
-  bookContext: any;
-  setBookContext: any;
-  bottomSheetRef: any;
+  bottomSheetRefNew: any;
   libraryName: any;
 }
 
@@ -39,84 +42,64 @@ const demoOrder = {
   genre: null,
 };
 
+const defaultForm = {
+  author: "",
+  genre: "",
+  pages: "",
+  publicationYear: "",
+  title: "",
+};
+
 export default function renderContent(props: IProp) {
-  const { bookContext, setBookContext, bottomSheetRef, libraryName } = props;
-  const { key } = bookContext._snapshot;
-  const bookID = key;
+  const { bottomSheetRefNew, libraryName } = props;
 
-  const [book, setBook] = useState(null);
-
-  useEffect(() => {
-    const reference = `/libraries/${Authentication.getUID()}/${libraryName}/books/${bookID}/`;
-    const onValueChange = database()
-      .ref(reference)
-      .on("value", (snapshot) => {
-        // This lets us re-order the object key/values
-        const orderedDemographics = Object.assign(demoOrder, snapshot.toJSON());
-        setBook({ ...orderedDemographics });
-      });
-    // Stop listening for updates when no longer required
-    return () => database().ref(`/users/${Authentication.getUID()}`).off("value", onValueChange);
-  }, [Authentication.getUID(), bookID]);
+  const [book, setBook] = useState({ ...defaultForm });
 
   const updateForm = (key, value) => {
-    const updateBookProp: IBookApiProp = {
-      libraryName,
-      bookID,
-      bookData: { ...book, [key]: value },
-    };
-    UpdateBook(updateBookProp);
+    setBook({ ...book, [key]: value });
   };
 
-  function InputBlock(inputProps: IInputProp) {
-    const { value, title, index } = inputProps;
-    const visibleTitle = title === "publicationYear" ? "Year Publ." : title;
-    if (title === "index") return;
-    return (
-      <View key={index} style={{ flexDirection: "row", marginBottom: 5 }}>
-        <View
-          style={{
-            borderBottomLeftRadius: 10,
-            borderTopLeftRadius: 10,
-            justifyContent: "center",
-            alignItems: "center",
-            width: "20%",
-            height: 60,
-            backgroundColor: GlobalStyles.Colors.backgrounds.MEDIUMDARK,
-          }}>
-          <Text style={[{ fontSize: 16, fontWeight: "200", textTransform: "capitalize" }, GlobalStyles.Colors.defaultText]}>{visibleTitle}</Text>
-        </View>
-        <TextInput
-          multiline={false}
-          returnKeyType={"done"}
-          textAlign={"center"}
-          style={{
-            fontSize: 20,
-            borderTopRightRadius: 10,
-            borderBottomRightRadius: 10,
-            height: 60,
-            backgroundColor: GlobalStyles.Colors.backgrounds.DARKEST,
-            color: GlobalStyles.Colors.defaultText.color,
-            width: "80%",
-          }}
-          onChangeText={(text) => {
-            updateForm(title, text);
-          }}
-          value={book[title].toString()}
-          placeholder={"Tap to enter info..."}
-          placeholderTextColor={GlobalStyles.Colors.text.light}></TextInput>
-      </View>
-    );
+  function SubmitBook() {
+    const newBookProp: IBookApiProp = {
+      libraryName,
+      bookData: book,
+    };
+    NewBook(newBookProp);
+    ResetForm();
+  }
+
+  function ResetForm() {
+    setBook({ ...defaultForm });
   }
 
   return (
     <KeyboardAwareScrollView>
-      <View style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, paddingVertical: 5, paddingBottom: 30 }}>
+      <View style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, paddingVertical: 5, paddingBottom: 20 }}>
         {book &&
-          Object.keys(book).map((keyName, i) => {
-            return InputBlock({ value: book[keyName], title: keyName, index: i });
+          Object.keys(book).map((keyName, index) => {
+            if (keyName !== "index" && keyName !== "dateAdded") {
+              const inputProp: IInputProp = {
+                value: book[keyName],
+                title: keyName,
+                index,
+                updateForm,
+                book,
+              };
+              return <InputBlock key={index} {...inputProp} />;
+            }
           })}
       </View>
+      <GreenButton
+        style={{ height: 60 }}
+        onPress={() => {
+          SubmitBook();
+          //bottomSheetRefNew.current.collapse();
+        }}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Icons.Done />
+          <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Done!</Text>
+        </View>
+      </GreenButton>
     </KeyboardAwareScrollView>
   );
 }

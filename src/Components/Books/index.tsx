@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, Alert, FlatList, StyleSheet } from "react-native";
 import * as GlobalStyles from "../../styles";
 import Swipeable from "../../libraryOverrides/Swipeable";
@@ -12,17 +12,13 @@ import { DeleteBook } from "../../hooks/BookManager";
 import BottomSheet from "@gorhom/bottom-sheet";
 import RenderHeader from "./BottomSheetHeader";
 import { BlueButton } from "../Buttons";
+import NewBook from "./NewBook";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 
 interface IBookApiProp {
   libraryName: string;
   bookID: string;
 }
-
-const editingMode = {
-  new: GlobalStyles.Colors.backgrounds.GREEN,
-  edit: GlobalStyles.Colors.backgrounds.BLUE,
-  default: GlobalStyles.Colors.backgrounds.LIGHTEST,
-};
 
 export function Books(props: any) {
   const { libraryName } = props.route.params;
@@ -32,8 +28,14 @@ export function Books(props: any) {
 
   // Bottomsheet state/hooks
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["10%", "100%"], []);
+  const bottomSheetRefNew = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => [getStatusBarHeight() >= 44 ? "10%" : "12%", "100%"], []);
+  const snapPointsNew = useMemo(() => [0, "100%"], []);
   const snapTo = (index: number) => bottomSheetRef.current.snapTo(index);
+
+  const handleSheetChanges = useCallback((index: number) => {
+    if (index === 0) setBookContext(null);
+  }, []);
 
   const rightButtons = ({ item }) => {
     return [
@@ -62,21 +64,32 @@ export function Books(props: any) {
       <TouchableOpacity
         style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}
         onPress={() => {
-          snapTo(0);
-          setBookContext({ ...item });
-          setTimeout(() => {
-            snapTo(1);
-          }, 200);
+          updateBottomSheetMode(item);
         }}>
         <Icons.Edit />
       </TouchableOpacity>,
     ];
   };
 
+  const updateBottomSheetMode = (item: any) => {
+    snapTo(0);
+    setBookContext({ ...item });
+    setTimeout(() => {
+      snapTo(1);
+    }, 200);
+  };
+
   const renderBooks = ({ item, index }) => {
+    const updateBottomSheetModeInternal = () => {
+      updateBottomSheetMode(item);
+    };
+    const bookProp = {
+      updateBottomSheetModeInternal,
+      item,
+    };
     return (
       <Swipeable rightButtons={rightButtons({ ...{ item, index } })}>
-        <Book key={index} {...item} />
+        <Book key={index} {...bookProp} />
       </Swipeable>
     );
   };
@@ -106,7 +119,12 @@ export function Books(props: any) {
       return itemData.includes(filter.toLowerCase());
     });
 
-    return result;
+    const sortedResult = result.sort((a, b) => {
+      console.log("ass", a.toJSON().dateAdded);
+      return a.toJSON().dateAdded < b.toJSON().dateAdded;
+    });
+
+    return sortedResult;
   };
 
   const editBookProp = {
@@ -136,23 +154,42 @@ export function Books(props: any) {
           );
         }}
       />
+
       <BottomSheet
         backgroundComponent={() => <View></View>}
         style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST }}
         ref={bottomSheetRef}
         index={0}
+        onChange={handleSheetChanges}
         snapPoints={snapPoints}
         handleComponent={() => <RenderHeader />}>
         <View style={{ paddingHorizontal: 16, backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, flex: 1 }}>
-          <View style={{ marginBottom: 30 }}>
-            <BlueButton style={{ height: 60 }} onPress={() => {}}>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Icons.Book />
-                <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Add New Book</Text>
-              </View>
-            </BlueButton>
-          </View>
+          {!bookContext && (
+            <View style={{ marginBottom: 30 }}>
+              <BlueButton
+                style={{ height: 60 }}
+                onPress={() => {
+                  bottomSheetRefNew.current.expand();
+                }}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Icons.Book />
+                  <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Add New Book</Text>
+                </View>
+              </BlueButton>
+            </View>
+          )}
           {bookContext && <EditBook {...editBookProp} />}
+        </View>
+      </BottomSheet>
+      <BottomSheet
+        backgroundComponent={() => <View></View>}
+        style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST }}
+        ref={bottomSheetRefNew}
+        index={0}
+        snapPoints={snapPointsNew}
+        handleComponent={() => <RenderHeader />}>
+        <View style={{ paddingHorizontal: 16, backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, flex: 1 }}>
+          <NewBook {...{ bottomSheetRefNew, libraryName }} />
         </View>
       </BottomSheet>
     </View>
