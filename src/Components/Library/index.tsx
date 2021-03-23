@@ -62,9 +62,8 @@ function createLibrary(name: string) {
     .then(() => console.log("Data updated."));
 }
 
-interface ILibrary {
-  name: string;
-  admins: Array<any>;
+interface IBook {
+  genre?: string;
 }
 
 export default function Library(props: IProp) {
@@ -83,6 +82,7 @@ export default function Library(props: IProp) {
         });
         setLibraries(tempLib);
       });
+
     // Stop listening for updates when no longer required
     return () => database().ref(`/users/${Authentication.getUID()}`).off("value", onValueChange);
   }, [Authentication.getUID()]);
@@ -96,28 +96,30 @@ export default function Library(props: IProp) {
     </TouchableOpacity>,
   ];
 
-  const renderLibrary = ({ item }) => (
-    <Swipeable rightButtons={rightButtons}>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("Books", { libraryName: `${item.key}` });
-        }}>
-        <LibraryCard {...item} />
-      </TouchableOpacity>
-    </Swipeable>
-  );
+  const renderLibrary = ({ item }) => {
+    return (
+      <Swipeable rightButtons={rightButtons}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Books", { libraryName: `${item.key}` });
+          }}>
+          <LibraryCard {...item} />
+        </TouchableOpacity>
+      </Swipeable>
+    );
+  };
 
   return (
     <View>
-      <Text style={GlobalStyles.Colors.defaultText}>Library</Text>
       <TouchableOpacity
         style={GlobalStyles.default.primaryButton}
         onPress={() => {
-          createLibrary("myLibrary");
+          createLibrary("other library");
         }}>
         <Text style={GlobalStyles.Colors.defaultText}>Create Library</Text>
       </TouchableOpacity>
       <FlatList
+        style={{ height: "100%" }}
         data={libraries}
         renderItem={renderLibrary}
         keyExtractor={(item, index) => {
