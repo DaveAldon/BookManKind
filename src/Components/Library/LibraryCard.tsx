@@ -46,6 +46,11 @@ export function LibraryCard(props: IProp) {
           localStats.genre[book.genre] = 1;
         } else localStats.genre[book.genre] = localStats.genre[book.genre] + 1;
       }
+      if (book.publicationYear) {
+        if (!localStats.year[book.publicationYear]) {
+          localStats.year[book.publicationYear] = 1;
+        } else localStats.year[book.publicationYear] = localStats.year[book.publicationYear] + 1;
+      }
     });
     setStats({ ...localStats });
   }, [books]);
@@ -59,7 +64,7 @@ export function LibraryCard(props: IProp) {
 
       <Text style={GlobalStyles.Colors.defaultText}>Created by {email}</Text>
       {stats && (
-        <View style={{ width: "100%" }}>
+        <View style={{ width: "100%", height: 400 }}>
           <StackBarChart values={stats} />
         </View>
       )}
