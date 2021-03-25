@@ -57,6 +57,11 @@ export function LibraryCard(props: IProp) {
           title: book.title,
         };
       }
+      if (book.author) {
+        if (!localStats.author[book.author]) {
+          localStats.author[book.author] = 1;
+        } else localStats.author[book.author] = localStats.author[book.author] + 1;
+      }
     });
     setStats({ ...localStats });
   }, [books]);

@@ -8,6 +8,7 @@ interface IPieProp {
     genre: any;
     year: any;
     pages: any;
+    author: any;
   };
 }
 
@@ -15,7 +16,7 @@ const colors = ["#24F0AB", "#A9F748", "#E0B94C", "#F77048", "#E366F0", "#A4ED45"
 
 export default function StackBarChart(props: IPieProp) {
   const { values } = props;
-  const { genre, year, pages } = values;
+  const { genre, year, pages, author } = values;
 
   let total = 0;
   Object.keys(genre).forEach((item) => {
@@ -26,7 +27,22 @@ export default function StackBarChart(props: IPieProp) {
   const newestBookFloor = Math.max(...Object.keys(year)) + 10;
   const biggestBook = pages[Math.max(...Object.keys(pages))];
 
-  console.log(biggestBook);
+  function getFavoriteAuthor() {
+    let fav = {
+      count: 0,
+      name: "",
+    };
+    for (let x in author) {
+      if (author[x] > fav.count) {
+        fav.count = author[x];
+        fav.name = x;
+      }
+    }
+    return fav;
+  }
+
+  const favoriteAuthor = getFavoriteAuthor();
+
   const yearGroups = {};
   for (let i = oldestBookFloor; i < newestBookFloor; i++) {
     if (year[i]) {
@@ -88,7 +104,7 @@ export default function StackBarChart(props: IPieProp) {
       </View>
 
       <Chart
-        style={{ height: 200, width: 400 }}
+        style={{ height: 180, width: 400 }}
         data={yearsLineData}
         padding={{ left: 40, bottom: 20, right: 20, top: 20 }}
         xDomain={{ min: oldestBookFloor, max: newestBookFloor }}
@@ -117,19 +133,20 @@ export default function StackBarChart(props: IPieProp) {
             labels: { label: { color: "white" }, formatter: (v) => v.toFixed(0) },
           }}
         />
-        <Area theme={{ gradient: { from: { color: "#ffa502" }, to: { color: "#ffa502", opacity: 0.4 } } }} />
-        <Line smoothing="cubic-spline" theme={{ stroke: { color: "#ffa502", width: 5 }, scatter: { default: { width: 4, height: 4, rx: 2 } } }} />
+        <Area theme={{ gradient: { from: { color: GlobalStyles.Colors.backgrounds.DARKEST }, to: { color: GlobalStyles.Colors.backgrounds.BRIGHT, opacity: 0.4 } } }} />
+        <Line smoothing="cubic-spline" theme={{ stroke: { color: "#ffa502", width: 8 }, scatter: { default: { width: 4, height: 4, rx: 2 } } }} />
       </Chart>
 
       <View style={{ flexDirection: "row", height: 100, justifyContent: "center", alignItems: "center" }}>
         <View style={styles.demographicsCard}>
           <Text style={styles.demographicsText}>Biggest book:</Text>
-          <Text style={[styles.demographicsText, { fontWeight: "700" }]}>
-            {biggestBook.title}, {biggestBook.count} pages
-          </Text>
+          <Text style={[styles.demographicsText, { fontWeight: "700" }]}>{biggestBook.title || "Untitled"}</Text>
+          <Text style={[styles.demographicsText, { fontWeight: "700" }]}>{biggestBook.count} pages</Text>
         </View>
         <View style={styles.demographicsCard}>
           <Text style={styles.demographicsText}>Favorite author</Text>
+          <Text style={[styles.demographicsText, { fontWeight: "700" }]}>{favoriteAuthor.name || "Untitled"}</Text>
+          <Text style={[styles.demographicsText, { fontWeight: "700" }]}>{favoriteAuthor.count} books</Text>
         </View>
       </View>
     </View>

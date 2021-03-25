@@ -125,6 +125,16 @@ export default function Library(props: IProp) {
         keyExtractor={(item, index) => {
           return item.key;
         }}
+        ItemSeparatorComponent={() => {
+          return (
+            <View
+              style={{
+                height: 10,
+                width: "100%",
+              }}
+            />
+          );
+        }}
       />
     </View>
   );
