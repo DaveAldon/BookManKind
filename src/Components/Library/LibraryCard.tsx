@@ -51,6 +51,12 @@ export function LibraryCard(props: IProp) {
           localStats.year[book.publicationYear] = 1;
         } else localStats.year[book.publicationYear] = localStats.year[book.publicationYear] + 1;
       }
+      if (book.pages) {
+        localStats.pages[book.pages] = {
+          count: book.pages,
+          title: book.title,
+        };
+      }
     });
     setStats({ ...localStats });
   }, [books]);
@@ -74,7 +80,7 @@ export function LibraryCard(props: IProp) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST,
+    backgroundColor: GlobalStyles.Colors.backgrounds.MEDIUMDARK,
     borderRadius: 20,
     padding: 10,
   },

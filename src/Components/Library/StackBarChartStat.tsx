@@ -7,6 +7,7 @@ interface IPieProp {
   values: {
     genre: any;
     year: any;
+    pages: any;
   };
 }
 
@@ -14,7 +15,7 @@ const colors = ["#24F0AB", "#A9F748", "#E0B94C", "#F77048", "#E366F0", "#A4ED45"
 
 export default function StackBarChart(props: IPieProp) {
   const { values } = props;
-  const { genre, year } = values;
+  const { genre, year, pages } = values;
 
   let total = 0;
   Object.keys(genre).forEach((item) => {
@@ -23,9 +24,11 @@ export default function StackBarChart(props: IPieProp) {
 
   const oldestBookFloor = Math.floor((Math.min(...Object.keys(year)) - 10) / 10) * 10 - 10;
   const newestBookFloor = Math.max(...Object.keys(year)) + 10;
+  const biggestBook = pages[Math.max(...Object.keys(pages))];
 
+  console.log(biggestBook);
   const yearGroups = {};
-  for (let i = oldestBookFloor; i < 2021; i++) {
+  for (let i = oldestBookFloor; i < newestBookFloor; i++) {
     if (year[i]) {
       const floor = Math.floor(i / 10) * 10;
       if (yearGroups[floor]) {
@@ -35,7 +38,7 @@ export default function StackBarChart(props: IPieProp) {
   }
 
   // Fill the empty decades with zero
-  for (let i = oldestBookFloor; i < 2021; i += 10) {
+  for (let i = oldestBookFloor; i < newestBookFloor; i += 10) {
     if (!year[i]) {
       yearGroups[i] = 0;
     }
@@ -93,10 +96,16 @@ export default function StackBarChart(props: IPieProp) {
         <VerticalAxis
           tickCount={totalYear + 1}
           theme={{
+            axis: {
+              visible: false,
+            },
             grid: {
               visible: false,
             },
-            labels: { label: { color: "white" }, formatter: (v) => v.toFixed(0) },
+            ticks: {
+              visible: false,
+            },
+            labels: { label: { color: "white", fontSize: 16 }, formatter: (v) => (v !== 0 ? v.toFixed(0) : "") },
           }}
         />
         <HorizontalAxis
@@ -111,10 +120,24 @@ export default function StackBarChart(props: IPieProp) {
         <Area theme={{ gradient: { from: { color: "#ffa502" }, to: { color: "#ffa502", opacity: 0.4 } } }} />
         <Line smoothing="cubic-spline" theme={{ stroke: { color: "#ffa502", width: 5 }, scatter: { default: { width: 4, height: 4, rx: 2 } } }} />
       </Chart>
+
+      <View style={{ flexDirection: "row", height: 100, justifyContent: "center", alignItems: "center" }}>
+        <View style={styles.demographicsCard}>
+          <Text style={styles.demographicsText}>Biggest book:</Text>
+          <Text style={[styles.demographicsText, { fontWeight: "700" }]}>
+            {biggestBook.title}, {biggestBook.count} pages
+          </Text>
+        </View>
+        <View style={styles.demographicsCard}>
+          <Text style={styles.demographicsText}>Favorite author</Text>
+        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { justifyContent: "space-between", flexDirection: "column", width: "100%", height: 100, padding: 0 },
+  demographicsCard: { justifyContent: "center", alignItems: "center", height: "100%", width: "45%", margin: 5, backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, borderRadius: 10 },
+  demographicsText: { color: "white", fontSize: 18 },
 });
