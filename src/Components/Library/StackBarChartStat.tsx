@@ -75,38 +75,40 @@ export default function StackBarChart(props: IPieProp) {
 
   return (
     <View style={styles.container}>
-      <View style={{ height: "50%", flexDirection: "row", width: "100%", borderRadius: 10, overflow: "hidden", borderWidth: 5, borderColor: GlobalStyles.Colors.backgrounds.MEDIUMDARK }}>
-        {Object.keys(genre).map((element, index) => {
-          const width = `${(100 / total) * genre[element]}%`;
-          return (
-            <View style={{ width: width, height: "100%" }}>
-              <View
-                style={{
-                  backgroundColor: colors[index],
-                  height: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}></View>
-            </View>
-          );
-        })}
-      </View>
-      <View style={{ width: "100%", height: "50%", alignItems: "center", flexDirection: "row", flexWrap: "wrap", padding: 5 }}>
-        {Object.keys(genre).map((element, index) => {
-          return (
-            <View style={{ backgroundColor: colors[index], borderRadius: 10, paddingHorizontal: 5, margin: 2 }}>
-              <Text style={{}}>
-                {genre[element]} {element}
-              </Text>
-            </View>
-          );
-        })}
+      <View style={{ height: "20%" }}>
+        <View style={{ height: "50%", flexDirection: "row", width: "100%", borderRadius: 10, overflow: "hidden", borderWidth: 5, borderColor: GlobalStyles.Colors.backgrounds.MEDIUMDARK }}>
+          {Object.keys(genre).map((element, index) => {
+            const width = `${(100 / total) * genre[element]}%`;
+            return (
+              <View style={{ width: width, height: "100%" }}>
+                <View
+                  style={{
+                    backgroundColor: colors[index],
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}></View>
+              </View>
+            );
+          })}
+        </View>
+        <View style={{ width: "100%", height: "50%", alignItems: "center", flexDirection: "row", flexWrap: "wrap", paddingHorizontal: 5 }}>
+          {Object.keys(genre).map((element, index) => {
+            return (
+              <View style={{ backgroundColor: colors[index], borderRadius: 10, paddingHorizontal: 5, margin: 2 }}>
+                <Text style={{}}>
+                  {genre[element]} {element}
+                </Text>
+              </View>
+            );
+          })}
+        </View>
       </View>
 
       <Chart
-        style={{ height: 180, width: 400 }}
+        style={{ height: "60%", width: "100%" }}
         data={yearsLineData}
-        padding={{ left: 40, bottom: 20, right: 20, top: 20 }}
+        padding={{ left: 20, bottom: 20, right: 0, top: 30 }}
         xDomain={{ min: oldestBookFloor, max: newestBookFloor }}
         yDomain={{ min: 0, max: totalYear }}>
         <VerticalAxis
@@ -137,14 +139,14 @@ export default function StackBarChart(props: IPieProp) {
         <Line smoothing="cubic-spline" theme={{ stroke: { color: "#ffa502", width: 8 }, scatter: { default: { width: 4, height: 4, rx: 2 } } }} />
       </Chart>
 
-      <View style={{ flexDirection: "row", height: 100, justifyContent: "center", alignItems: "center" }}>
+      <View style={{ flexDirection: "row", height: "20%", justifyContent: "space-between", alignItems: "center" }}>
         <View style={styles.demographicsCard}>
           <Text style={styles.demographicsText}>Biggest book:</Text>
           <Text style={[styles.demographicsText, { fontWeight: "700" }]}>{biggestBook.title || "Untitled"}</Text>
           <Text style={[styles.demographicsText, { fontWeight: "700" }]}>{biggestBook.count} pages</Text>
         </View>
         <View style={styles.demographicsCard}>
-          <Text style={styles.demographicsText}>Favorite author</Text>
+          <Text style={styles.demographicsText}>Favorite author:</Text>
           <Text style={[styles.demographicsText, { fontWeight: "700" }]}>{favoriteAuthor.name || "Untitled"}</Text>
           <Text style={[styles.demographicsText, { fontWeight: "700" }]}>{favoriteAuthor.count} books</Text>
         </View>
@@ -154,7 +156,7 @@ export default function StackBarChart(props: IPieProp) {
 }
 
 const styles = StyleSheet.create({
-  container: { justifyContent: "space-between", flexDirection: "column", width: "100%", height: 100, padding: 0 },
-  demographicsCard: { justifyContent: "center", alignItems: "center", height: "100%", width: "45%", margin: 5, backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, borderRadius: 10 },
-  demographicsText: { color: "white", fontSize: 18 },
+  container: { justifyContent: "space-between", flexDirection: "column", width: "100%", height: "100%", padding: 0 },
+  demographicsCard: { justifyContent: "center", alignItems: "center", height: "100%", width: "45%", marginHorizontal: 0, backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, borderRadius: 10 },
+  demographicsText: { color: "white", fontSize: 14 },
 });

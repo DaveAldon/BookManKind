@@ -68,14 +68,16 @@ export function LibraryCard(props: IProp) {
 
   return (
     <View style={styles.card}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" }}>
-        <Text style={[{ fontSize: 20 }, GlobalStyles.Colors.defaultText]}>{key}</Text>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, borderRadius: 10, padding: 10 }}>
+        <View>
+          <Text style={[{ fontSize: 20, fontWeight: "700" }, GlobalStyles.Colors.defaultText]}>{key}</Text>
+          <Text style={GlobalStyles.Colors.defaultText}>Created by {email}</Text>
+        </View>
         <Text style={[{ fontSize: 20 }, GlobalStyles.Colors.defaultText]}>{bookCount} Books</Text>
       </View>
 
-      <Text style={GlobalStyles.Colors.defaultText}>Created by {email}</Text>
       {stats && (
-        <View style={{ width: "100%", height: 400 }}>
+        <View style={{ width: "100%", height: 300, padding: 0 }}>
           <StackBarChart values={stats} />
         </View>
       )}
