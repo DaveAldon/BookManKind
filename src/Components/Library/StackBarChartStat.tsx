@@ -143,12 +143,16 @@ export default function StackBarChart(props: IPieProp) {
         <View style={styles.demographicsCard}>
           <Text style={styles.demographicsText}>Biggest book:</Text>
           <Text style={[styles.demographicsText, { fontWeight: "700" }]}>{biggestBook.title || "Untitled"}</Text>
-          <Text style={[styles.demographicsText, { fontWeight: "700" }]}>{biggestBook.count} pages</Text>
+          <Text style={[styles.demographicsText, { fontWeight: "700" }]}>
+            {biggestBook.count} page{biggestBook.count > 1 ? "s" : ""}
+          </Text>
         </View>
         <View style={styles.demographicsCard}>
           <Text style={styles.demographicsText}>Favorite author:</Text>
           <Text style={[styles.demographicsText, { fontWeight: "700" }]}>{favoriteAuthor.name || "Untitled"}</Text>
-          <Text style={[styles.demographicsText, { fontWeight: "700" }]}>{favoriteAuthor.count} books</Text>
+          <Text style={[styles.demographicsText, { fontWeight: "700" }]}>
+            {favoriteAuthor.count} book{favoriteAuthor.count > 1 ? "s" : ""}
+          </Text>
         </View>
       </View>
     </View>
