@@ -4,6 +4,7 @@ import Feather from "react-native-vector-icons/Feather";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Entypo from "react-native-vector-icons/Entypo";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as GlobalStyles from "../styles";
 
@@ -34,5 +35,8 @@ function Done({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
 function Thinking({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
   return <MaterialCommunityIcons name="thought-bubble" size={size} color={color} />;
 }
+function Library({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
+  return <Ionicons name="library" size={size} color={color} />;
+}
 
-export { Delete, Share, Calendar, Pages, Genre, Edit, Book, Done, Thinking };
+export { Delete, Share, Calendar, Pages, Genre, Edit, Book, Done, Thinking, Library };

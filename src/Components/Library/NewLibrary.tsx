@@ -39,7 +39,7 @@ export default function renderContent(props: IProp) {
   };
 
   return (
-    <KeyboardAwareScrollView>
+    <View>
       <View style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, paddingVertical: 5, paddingBottom: 20 }}>
         <InputBlock {...inputProp} />
       </View>
@@ -49,8 +49,8 @@ export default function renderContent(props: IProp) {
           onPress={() => {
             bottomSheetRef.current.snapTo(0);
             setTimeout(() => {
-              //CreateLibrary(name);
-              console.log(name);
+              CreateLibrary(name);
+              //console.log(name);
               ResetForm();
             }, 1000);
           }}>
@@ -63,11 +63,11 @@ export default function renderContent(props: IProp) {
         <DeactivatedButton style={{ height: 60 }} onPress={() => {}}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Icons.Thinking />
-            <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>You library needs a name</Text>
+            <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Your library needs a name</Text>
           </View>
         </DeactivatedButton>
       )}
-    </KeyboardAwareScrollView>
+    </View>
   );
 }
 

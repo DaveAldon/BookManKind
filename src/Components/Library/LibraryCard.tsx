@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { StyleSheet } from "react-native";
 import * as GlobalStyles from "../../styles";
-import StackBarChart from "./StackBarChartStat";
+import Stats from "./Stats";
 
 interface IProp {
   _snapshot: {
@@ -40,29 +40,30 @@ export function LibraryCard(props: IProp) {
       author: {},
     };
 
-    Object.values(books).forEach((book: any) => {
-      if (book.genre) {
-        if (!localStats.genre[book.genre]) {
-          localStats.genre[book.genre] = 1;
-        } else localStats.genre[book.genre] = localStats.genre[book.genre] + 1;
-      }
-      if (book.publicationYear) {
-        if (!localStats.year[book.publicationYear]) {
-          localStats.year[book.publicationYear] = 1;
-        } else localStats.year[book.publicationYear] = localStats.year[book.publicationYear] + 1;
-      }
-      if (book.pages) {
-        localStats.pages[book.pages] = {
-          count: book.pages,
-          title: book.title,
-        };
-      }
-      if (book.author) {
-        if (!localStats.author[book.author]) {
-          localStats.author[book.author] = 1;
-        } else localStats.author[book.author] = localStats.author[book.author] + 1;
-      }
-    });
+    books &&
+      Object.values(books).forEach((book: any) => {
+        if (book.genre) {
+          if (!localStats.genre[book.genre]) {
+            localStats.genre[book.genre] = 1;
+          } else localStats.genre[book.genre] = localStats.genre[book.genre] + 1;
+        }
+        if (book.publicationYear) {
+          if (!localStats.year[book.publicationYear]) {
+            localStats.year[book.publicationYear] = 1;
+          } else localStats.year[book.publicationYear] = localStats.year[book.publicationYear] + 1;
+        }
+        if (book.pages) {
+          localStats.pages[book.pages] = {
+            count: book.pages,
+            title: book.title,
+          };
+        }
+        if (book.author) {
+          if (!localStats.author[book.author]) {
+            localStats.author[book.author] = 1;
+          } else localStats.author[book.author] = localStats.author[book.author] + 1;
+        }
+      });
     setStats({ ...localStats });
   }, [books]);
 
@@ -80,7 +81,7 @@ export function LibraryCard(props: IProp) {
 
       {stats && (
         <View style={{ width: "100%", height: 300, padding: 0 }}>
-          <StackBarChart values={stats} />
+          <Stats values={stats} />
         </View>
       )}
     </View>

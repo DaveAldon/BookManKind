@@ -11,6 +11,7 @@ import BottomSheet, { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-s
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import NewLibrary from "./NewLibrary";
 import RenderHeader from "../BottomSheet/BottomSheetHeader";
+import { BlueButton } from "../Buttons";
 
 interface IProp {
   navigation: any;
@@ -75,8 +76,10 @@ export default function Library(props: IProp) {
   const [libraries, setLibraries] = useState([]);
 
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => [getStatusBarHeight() >= 44 ? "10%" : "12%", "100%"], []);
-  const snapTo = (index: number) => bottomSheetRef.current.snapTo(index);
+  const bottomSheetRefNew = useRef<BottomSheetModal>(null);
+  const snapPoints = useMemo(() => [0, "100%"], []);
+
+  const snapPointsNew = useMemo(() => [getStatusBarHeight() >= 44 ? "13%" : "10%", "100%"], []);
 
   useEffect(() => {
     const onValueChange = database()
@@ -144,6 +147,28 @@ export default function Library(props: IProp) {
           );
         }}
       />
+      <BottomSheet
+        backgroundComponent={() => <View></View>}
+        style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST }}
+        ref={bottomSheetRefNew}
+        index={0}
+        snapPoints={snapPointsNew}
+        handleComponent={() => <RenderHeader />}>
+        <View style={{ paddingHorizontal: 16, backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, flex: 1 }}>
+          <View style={{ marginBottom: 30 }}>
+            <BlueButton
+              style={{ height: 60 }}
+              onPress={() => {
+                bottomSheetRef.current.expand();
+              }}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Icons.Library />
+                <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Add New Library</Text>
+              </View>
+            </BlueButton>
+          </View>
+        </View>
+      </BottomSheet>
       <BottomSheet
         backgroundComponent={() => <View></View>}
         style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST }}

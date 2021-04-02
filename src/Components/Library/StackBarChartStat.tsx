@@ -18,6 +18,10 @@ export default function StackBarChart(props: IPieProp) {
   const { values } = props;
   const { genre, year, pages, author } = values;
 
+  //return <View></View>;
+
+  if (Object.keys(genre).length === 0 && Object.keys(year).length === 0 && Object.keys(pages).length === 0 && Object.keys(author).length === 0) return <View></View>;
+
   let total = 0;
   Object.keys(genre).forEach((item) => {
     total += genre[item];
