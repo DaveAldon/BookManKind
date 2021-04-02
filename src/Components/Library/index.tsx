@@ -75,7 +75,7 @@ export default function Library(props: IProp) {
   const bottomSheetRefNew = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => [0, "100%"], []);
 
-  const snapPointsNew = useMemo(() => [getStatusBarHeight() >= 44 ? "13%" : "10%", "100%"], []);
+  const snapPointsNew = useMemo(() => [getStatusBarHeight() >= 44 ? "10%" : "12%", "100%"], []);
 
   useEffect(() => {
     const onValueChange = database()
@@ -118,13 +118,6 @@ export default function Library(props: IProp) {
 
   return (
     <View>
-      <TouchableOpacity
-        style={GlobalStyles.default.primaryButton}
-        onPress={() => {
-          createLibrary("other library");
-        }}>
-        <Text style={GlobalStyles.Colors.defaultText}>Create Library</Text>
-      </TouchableOpacity>
       <FlatList
         style={{ height: "100%" }}
         data={libraries}
