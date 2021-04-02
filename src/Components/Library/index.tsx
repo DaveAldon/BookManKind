@@ -67,10 +67,6 @@ function createLibrary(name: string) {
     .then(() => console.log("Data updated."));
 }
 
-interface IBook {
-  genre?: string;
-}
-
 export default function Library(props: IProp) {
   const { navigation } = props;
   const [libraries, setLibraries] = useState([]);

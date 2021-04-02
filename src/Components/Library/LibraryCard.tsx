@@ -75,7 +75,7 @@ export function LibraryCard(props: IProp) {
           <Text style={GlobalStyles.Colors.defaultText}>Created by {email}</Text>
         </View>
         <Text style={[{ fontSize: 20 }, GlobalStyles.Colors.defaultText]}>
-          {bookCount} Book{bookCount > 1 ? "s" : ""}
+          {bookCount} Book{bookCount !== 1 ? "s" : ""}
         </Text>
       </View>
 

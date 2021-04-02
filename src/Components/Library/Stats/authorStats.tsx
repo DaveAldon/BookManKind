@@ -2,6 +2,14 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import * as GlobalStyles from "../../../styles";
 
+const EmptyBlock = () => {
+  return (
+    <View style={styles.demographicsCard}>
+      <Text style={[styles.demographicsText, { textAlign: "center" }]}>Add author info to see your favorite writer</Text>
+    </View>
+  );
+};
+
 function getFavoriteAuthor(author: any) {
   let fav = {
     count: 0,
@@ -17,6 +25,10 @@ function getFavoriteAuthor(author: any) {
 }
 
 export function FavoriteAuthor(author: any) {
+  if (Object.keys(author).length === 0) {
+    return <EmptyBlock />;
+  }
+
   const favoriteAuthor = getFavoriteAuthor(author);
 
   return (

@@ -2,7 +2,19 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import * as GlobalStyles from "../../../styles";
 
+const EmptyBlock = () => {
+  return (
+    <View style={styles.demographicsCard}>
+      <Text style={[styles.demographicsText, { textAlign: "center" }]}>Add page info to see your biggest book</Text>
+    </View>
+  );
+};
+
 export function BiggestBook(pages: any) {
+  if (Object.keys(pages).length === 0) {
+    return <EmptyBlock />;
+  }
+
   const biggestBook = pages[Math.max(...Object.keys(pages))];
 
   return (

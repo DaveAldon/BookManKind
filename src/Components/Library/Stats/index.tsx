@@ -23,10 +23,10 @@ export default function Stats(props: IStatsProp) {
     <View style={styles.container}>
       <GenreBreakdown {...genre} />
       <YearLineChart {...year} />
-      {/* <View style={{ flexDirection: "row", height: "20%", justifyContent: "space-between", alignItems: "center" }}>
+      <View style={{ flexDirection: "row", height: "20%", justifyContent: "space-between", alignItems: "center" }}>
         <BiggestBook {...pages} />
         <FavoriteAuthor {...author} />
-      </View> */}
+      </View>
     </View>
   );
 }

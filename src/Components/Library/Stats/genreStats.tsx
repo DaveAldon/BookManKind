@@ -3,11 +3,17 @@ import { View, StyleSheet, Text } from "react-native";
 import * as GlobalStyles from "../../../styles";
 import { colors } from "./statColors";
 
+const EmptyBlock = () => {
+  return (
+    <View style={styles.demographicsCard}>
+      <Text style={[styles.demographicsText, { textAlign: "center" }]}>Add genre info to see a category breakdown</Text>
+    </View>
+  );
+};
+
 export function GenreBreakdown(genre: any) {
   if (Object.keys(genre).length === 0) {
-    genre = {
-      "No books with genre information yet": 1,
-    };
+    return <EmptyBlock />;
   }
 
   let total = 0;
@@ -48,4 +54,7 @@ export function GenreBreakdown(genre: any) {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  demographicsCard: { justifyContent: "center", alignItems: "center", height: 50, width: "100%", marginVertical: 10, backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, borderRadius: 10 },
+  demographicsText: { color: "white", fontSize: 14 },
+});
