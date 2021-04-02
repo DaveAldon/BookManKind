@@ -1,9 +1,17 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import * as GlobalStyles from "../../../styles";
 import { Chart, Line, Area, HorizontalAxis, VerticalAxis } from "react-native-responsive-linechart";
 
 export function YearLineChart(year: any) {
+  if (Object.keys(year).length === 0) {
+    return (
+      <View>
+        <Text style={{ color: GlobalStyles.Colors.defaultText.color }}>Add some publication dates to your books to see a distribution of years</Text>
+      </View>
+    );
+  }
+
   const oldestBookFloor = Math.floor((Math.min(...Object.keys(year)) - 10) / 10) * 10 - 10;
   const newestBookFloor = Math.max(...Object.keys(year)) + 10;
 
@@ -19,7 +27,7 @@ export function YearLineChart(year: any) {
 
   // Fill the empty decades with zero
   for (let i = oldestBookFloor; i < newestBookFloor; i += 10) {
-    if (!year[i]) {
+    if (!yearGroups[i]) {
       yearGroups[i] = 0;
     }
   }

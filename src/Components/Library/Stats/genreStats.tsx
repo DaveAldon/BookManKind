@@ -4,6 +4,12 @@ import * as GlobalStyles from "../../../styles";
 import { colors } from "./statColors";
 
 export function GenreBreakdown(genre: any) {
+  if (Object.keys(genre).length === 0) {
+    genre = {
+      "No books with genre information yet": 1,
+    };
+  }
+
   let total = 0;
   Object.keys(genre).forEach((item) => {
     total += genre[item];

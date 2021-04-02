@@ -19,16 +19,14 @@ export default function Stats(props: IStatsProp) {
   const { values } = props;
   const { genre, year, pages, author } = values;
 
-  if (Object.keys(genre).length === 0 && Object.keys(year).length === 0 && Object.keys(pages).length === 0 && Object.keys(author).length === 0) return <View></View>;
-
   return (
     <View style={styles.container}>
       <GenreBreakdown {...genre} />
       <YearLineChart {...year} />
-      <View style={{ flexDirection: "row", height: "20%", justifyContent: "space-between", alignItems: "center" }}>
+      {/* <View style={{ flexDirection: "row", height: "20%", justifyContent: "space-between", alignItems: "center" }}>
         <BiggestBook {...pages} />
         <FavoriteAuthor {...author} />
-      </View>
+      </View> */}
     </View>
   );
 }
