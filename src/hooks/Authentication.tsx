@@ -47,7 +47,7 @@ function logout() {
 
 function getUser() {
   return {
-    user: auth().currentUser,
+    user: auth().currentUser || "",
   };
 }
 

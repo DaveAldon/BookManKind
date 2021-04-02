@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import database from "@react-native-firebase/database";
 import { Authentication } from "../../hooks/Authentication";
@@ -7,6 +7,10 @@ import { LibraryCard } from "./LibraryCard";
 import Swipeable from "../../libraryOverrides/Swipeable";
 import * as Icons from "../../styles/icons";
 import GUID from "../../hooks/GUIDGenerator";
+import BottomSheet, { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import { getStatusBarHeight } from "react-native-status-bar-height";
+import NewLibrary from "./NewLibrary";
+import RenderHeader from "../BottomSheet/BottomSheetHeader";
 
 interface IProp {
   navigation: any;
@@ -69,6 +73,10 @@ interface IBook {
 export default function Library(props: IProp) {
   const { navigation } = props;
   const [libraries, setLibraries] = useState([]);
+
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => [getStatusBarHeight() >= 44 ? "10%" : "12%", "100%"], []);
+  const snapTo = (index: number) => bottomSheetRef.current.snapTo(index);
 
   useEffect(() => {
     const onValueChange = database()
@@ -136,6 +144,17 @@ export default function Library(props: IProp) {
           );
         }}
       />
+      <BottomSheet
+        backgroundComponent={() => <View></View>}
+        style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST }}
+        ref={bottomSheetRef}
+        index={0}
+        snapPoints={snapPoints}
+        handleComponent={() => <RenderHeader />}>
+        <View style={{ paddingHorizontal: 16, backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, flex: 1 }}>
+          <NewLibrary {...{ bottomSheetRef }} />
+        </View>
+      </BottomSheet>
     </View>
   );
 }

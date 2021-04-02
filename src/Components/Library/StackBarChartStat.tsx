@@ -80,7 +80,7 @@ export default function StackBarChart(props: IPieProp) {
           {Object.keys(genre).map((element, index) => {
             const width = `${(100 / total) * genre[element]}%`;
             return (
-              <View style={{ width: width, height: "100%" }}>
+              <View key={index} style={{ width: width, height: "100%" }}>
                 <View
                   style={{
                     backgroundColor: colors[index],
@@ -95,7 +95,7 @@ export default function StackBarChart(props: IPieProp) {
         <View style={{ width: "100%", height: "50%", alignItems: "center", flexDirection: "row", flexWrap: "wrap", paddingHorizontal: 5 }}>
           {Object.keys(genre).map((element, index) => {
             return (
-              <View style={{ backgroundColor: colors[index], borderRadius: 10, paddingHorizontal: 5, margin: 2 }}>
+              <View key={index} style={{ backgroundColor: colors[index], borderRadius: 10, paddingHorizontal: 5, margin: 2 }}>
                 <Text style={{}}>
                   {genre[element]} {element}
                 </Text>
