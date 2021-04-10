@@ -1,21 +1,18 @@
 import "react-native-gesture-handler";
 import * as React from "react";
-import { View, Text, SafeAreaView } from "react-native";
+import { View, StyleSheet, SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Login } from "./src/screens/Login";
 import { Signup } from "./src/screens/Signup";
 import { Home } from "./src/screens/Home";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import Feather from "react-native-vector-icons/Feather";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Entypo from "react-native-vector-icons/Entypo";
 import { useEffect, useState } from "react";
 import auth from "@react-native-firebase/auth";
 import { Authentication } from "./src/hooks/Authentication";
 import * as GlobalStyles from "./src/styles";
 import { Books } from "./src/Components/Books";
+import { Logout, Library } from "./src/styles/icons";
 
 interface IProp {
   navigation: any;
@@ -38,17 +35,19 @@ function DrawerContainer() {
           return null;
         }
         return (
-          <DrawerContentScrollView {...props} contentContainerStyle={{ flex: 1, flexDirection: "column", justifyContent: "space-between", paddingTop: 50 }}>
+          <DrawerContentScrollView
+            {...props}
+            contentContainerStyle={{ flex: 1, flexDirection: "column", justifyContent: "space-between", paddingTop: 50, backgroundColor: GlobalStyles.Colors.backgrounds.DARKEST }}>
             <View style={{ flex: 1, flexDirection: "column", justifyContent: "flex-start" }}>
-              <DrawerItem labelStyle={[{}]} label="Home" onPress={() => props.navigation.navigate("Home")} icon={() => <Feather name="monitor" size={30} color="black" />} />
+              <DrawerItem labelStyle={styles.text} label="Home" onPress={() => props.navigation.navigate("Home")} icon={() => <Library />} />
               <DrawerItem
-                labelStyle={[{}]}
+                labelStyle={styles.text}
                 label="Logout"
                 onPress={() => {
                   props.navigation.closeDrawer();
                   Authentication.logout();
                 }}
-                icon={() => <AntDesign name="logout" size={30} />}
+                icon={() => <Logout />}
               />
             </View>
           </DrawerContentScrollView>
@@ -115,3 +114,7 @@ const LibraryStack = () => {
     </Stack.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  text: { color: GlobalStyles.Colors.defaultText.color, fontSize: 16 },
+});

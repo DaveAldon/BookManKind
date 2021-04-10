@@ -38,5 +38,8 @@ function Thinking({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) 
 function Library({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
   return <Ionicons name="library" size={size} color={color} />;
 }
+function Logout({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
+  return <AntDesign name="logout" size={size} color={color} />;
+}
 
-export { Delete, Share, Calendar, Pages, Genre, Edit, Book, Done, Thinking, Library };
+export { Delete, Share, Calendar, Pages, Genre, Edit, Book, Done, Thinking, Library, Logout };

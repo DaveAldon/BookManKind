@@ -69,8 +69,8 @@ export function LibraryCard(props: IProp) {
 
   return (
     <View style={styles.card}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, borderRadius: 10, padding: 10 }}>
-        <View>
+      <View style={styles.titleInfoCard}>
+        <View style={{ height: "100%" }}>
           <Text style={[{ fontSize: 20, fontWeight: "700" }, GlobalStyles.Colors.defaultText]}>{key}</Text>
           <Text style={GlobalStyles.Colors.defaultText}>Created by {email}</Text>
         </View>
@@ -80,7 +80,7 @@ export function LibraryCard(props: IProp) {
       </View>
 
       {stats && (
-        <View style={{ width: "100%", height: 300, padding: 0 }}>
+        <View style={{ width: "100%", height: "80%" }}>
           <Stats values={stats} />
         </View>
       )}
@@ -90,8 +90,18 @@ export function LibraryCard(props: IProp) {
 
 const styles = StyleSheet.create({
   card: {
+    height: "100%",
     backgroundColor: GlobalStyles.Colors.backgrounds.MEDIUMDARK,
     borderRadius: 20,
+    padding: 10,
+  },
+  titleInfoCard: {
+    height: "20%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+    backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST,
+    borderRadius: 10,
     padding: 10,
   },
 });

@@ -105,21 +105,24 @@ export default function Library(props: IProp) {
 
   const renderLibrary = ({ item }) => {
     return (
-      <Swipeable rightButtons={rightButtons}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Books", { libraryName: `${item.key}` });
-          }}>
-          <LibraryCard {...item} />
-        </TouchableOpacity>
-      </Swipeable>
+      <View style={{ height: 335 }}>
+        <Swipeable rightButtons={rightButtons}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Books", { libraryName: `${item.key}` });
+            }}>
+            <LibraryCard {...item} />
+          </TouchableOpacity>
+        </Swipeable>
+      </View>
     );
   };
 
   return (
-    <View>
+    <View style={{}}>
       <FlatList
         style={{ height: "100%" }}
+        contentContainerStyle={{ paddingBottom: "30%" }}
         data={libraries}
         renderItem={renderLibrary}
         keyExtractor={(item, index) => {
