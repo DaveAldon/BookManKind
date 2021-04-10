@@ -14,11 +14,6 @@ import * as GlobalStyles from "./src/styles";
 import { Books } from "./src/Components/Books";
 import { Logout, Library } from "./src/styles/icons";
 
-interface IProp {
-  navigation: any;
-  route: any;
-}
-
 let initialRender = true;
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();

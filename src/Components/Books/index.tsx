@@ -139,6 +139,7 @@ export function Books(props: any) {
   return (
     <View style={{ backgroundColor: GlobalStyles.Colors.backgrounds.DARKEST, flex: 1 }}>
       <FlatList
+        contentContainerStyle={{ paddingBottom: "30%" }}
         data={filterItems(books, search)}
         renderItem={renderBooks}
         keyExtractor={(item, index) => {
