@@ -13,7 +13,7 @@ interface IInputProp {
 export default function InputBlock(inputProps: IInputProp) {
   const { value, title, index, updateForm, book } = inputProps;
   const visibleTitle = title === "publicationYear" ? "Year Publ." : title;
-
+  const isNumeric = title === "publicationYear" || title === "pages";
   return (
     <View key={index} style={{ flexDirection: "row", marginBottom: 5 }}>
       <View
@@ -42,6 +42,7 @@ export default function InputBlock(inputProps: IInputProp) {
           width: "80%",
         }}
         onChangeText={(text) => {
+          if (isNumeric) text = text.replace(/[^0-9]/g, "");
           updateForm(title, text);
         }}
         value={book[title].toString()}
