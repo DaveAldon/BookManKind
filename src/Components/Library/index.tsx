@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Alert } from "react-native";
 import database from "@react-native-firebase/database";
 import { Authentication } from "../../hooks/Authentication";
 import * as GlobalStyles from "../../styles";
@@ -12,59 +12,11 @@ import { getStatusBarHeight } from "react-native-status-bar-height";
 import NewLibrary from "./NewLibrary";
 import RenderHeader from "../BottomSheet/BottomSheetHeader";
 import { BlueButton } from "../Buttons";
+import { DeleteLibrary } from "../../hooks/LibraryManager";
 
 interface IProp {
   navigation: any;
   route: any;
-}
-
-function createLibrary(name: string) {
-  const username = Authentication.getUID();
-  const path = `/libraries/${username}/${name}`;
-  const sampleGUIDs = {
-    one: GUID(),
-    two: GUID(),
-    three: GUID(),
-  };
-  database()
-    .ref(path)
-    .update({
-      admins: [{ uid: Authentication.getUID(), email: Authentication.getUser().user.email }],
-      metaData: {
-        createdOn: new Date().getTime(),
-        size: 3,
-      },
-      books: {
-        [sampleGUIDs.one]: {
-          title: "Ben Hur",
-          author: "Lewis Wallace",
-          publicationYear: "1880",
-          pages: 342,
-          genre: "Historical Fiction",
-          index: sampleGUIDs.one,
-          dateAdded: Date.now(),
-        },
-        [sampleGUIDs.two]: {
-          title: "Owd Bob: the grey dog of Kenmuir",
-          author: "Alfred Ollivant",
-          publicationYear: "1898",
-          pages: 320,
-          genre: "Fiction",
-          index: sampleGUIDs.two,
-          dateAdded: Date.now(),
-        },
-        [sampleGUIDs.three]: {
-          title: "Dulce Domum",
-          author: "John Francis O'Donnell",
-          publicationYear: "1861",
-          pages: "",
-          genre: "",
-          index: sampleGUIDs.three,
-          dateAdded: Date.now(),
-        },
-      },
-    })
-    .then(() => console.log("Data updated."));
 }
 
 export default function Library(props: IProp) {
@@ -94,19 +46,37 @@ export default function Library(props: IProp) {
     return () => database().ref(`/users/${Authentication.getUID()}`).off("value", onValueChange);
   }, [Authentication.getUID()]);
 
-  const rightButtons = [
-    <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.RED }, styles.swipeButtons]}>
-      <Icons.Delete />
-    </TouchableOpacity>,
-    <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}>
-      <Icons.Share />
-    </TouchableOpacity>,
-  ];
+  function rightButtons(libraryName: string) {
+    return [
+      <TouchableOpacity
+        onPress={() => {
+          Alert.alert("Confirm Delete", "Are you sure you want to delete this entire library?", [
+            {
+              text: "Cancel",
+              style: "cancel",
+            },
+            {
+              text: "Yes",
+              onPress: () => {
+                const libraryManagerProp = { libraryName };
+                DeleteLibrary(libraryManagerProp);
+              },
+            },
+          ]);
+        }}
+        style={[{ backgroundColor: GlobalStyles.Colors.buttons.RED }, styles.swipeButtons]}>
+        <Icons.Delete />
+      </TouchableOpacity>,
+      <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}>
+        <Icons.Share />
+      </TouchableOpacity>,
+    ];
+  }
 
   const renderLibrary = ({ item }) => {
     return (
       <View style={{ height: 335 }}>
-        <Swipeable rightButtons={rightButtons}>
+        <Swipeable rightButtons={rightButtons(item.toJSON().metaData.name)}>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Books", { libraryName: `${item.key}` });

@@ -11,6 +11,7 @@ export function CreateLibrary(name: string) {
       metaData: {
         createdOn: new Date().getTime(),
         size: 0,
+        name,
       },
       books: {},
     })
