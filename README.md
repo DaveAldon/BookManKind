@@ -17,6 +17,7 @@ An app that makes managing your book library super easy, and collaborative. View
 ##### iOS
 
 - `cd ios && pod install && cd ..`
+  _If you're using an **M1 Mac**, run the pod install by opening terminal in Rosetta mode (Right-click terminal -> Get Info -> Open in Rosetta)_
   and then to run:
 - `react-native run-ios` for default simulator
 - `react-native run-ios --device` for real device (make sure it's connected to your computer)
