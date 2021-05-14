@@ -79,7 +79,7 @@ export default function renderContent(props: IProp) {
   }
 
   return (
-    <KeyboardAwareScrollView>
+    <View>
       <View style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, paddingVertical: 5, paddingBottom: 20 }}>
         {book &&
           Object.keys(book).map((keyName, index) => {
@@ -117,7 +117,7 @@ export default function renderContent(props: IProp) {
           </View>
         </DeactivatedButton>
       )}
-    </KeyboardAwareScrollView>
+    </View>
   );
 }
 

@@ -10,6 +10,8 @@ interface IInputProp {
   book: any;
 }
 
+const inputHeight = 55;
+
 export default function InputBlock(inputProps: IInputProp) {
   const { value, title, index, updateForm, book } = inputProps;
   const visibleTitle = title === "publicationYear" ? "Year Publ." : title;
@@ -23,7 +25,7 @@ export default function InputBlock(inputProps: IInputProp) {
           justifyContent: "center",
           alignItems: "center",
           width: "20%",
-          height: 60,
+          height: inputHeight,
           backgroundColor: GlobalStyles.Colors.backgrounds.MEDIUMDARK,
         }}>
         <Text style={[{ fontSize: 16, fontWeight: "200", textTransform: "capitalize" }, GlobalStyles.Colors.defaultText]}>{visibleTitle}</Text>
@@ -36,7 +38,7 @@ export default function InputBlock(inputProps: IInputProp) {
           fontSize: 20,
           borderTopRightRadius: 10,
           borderBottomRightRadius: 10,
-          height: 60,
+          height: inputHeight,
           backgroundColor: GlobalStyles.Colors.backgrounds.DARKEST,
           color: GlobalStyles.Colors.defaultText.color,
           width: "80%",
