@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import database from "@react-native-firebase/database";
-import { Authentication } from "../hooks/Authentication";
+import { Authentication } from "../managers/Authentication";
 
 interface IBookApiProp {
   libraryName: string;

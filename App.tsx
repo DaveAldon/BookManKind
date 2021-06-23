@@ -9,7 +9,7 @@ import { Signup } from "./src/screens/Signup";
 import { Home } from "./src/screens/Home";
 import { useEffect, useState } from "react";
 import auth from "@react-native-firebase/auth";
-import { Authentication } from "./src/hooks/Authentication";
+import { Authentication } from "./src/managers/Authentication";
 import * as GlobalStyles from "./src/styles";
 import { Books } from "./src/Components/Books";
 import { Logout, Library } from "./src/styles/icons";

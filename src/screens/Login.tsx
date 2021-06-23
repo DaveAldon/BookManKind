@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
-import { Authentication } from "../hooks/Authentication";
+import { Authentication } from "../managers/Authentication";
 import * as GlobalStyles from "../styles";
 import { BlueButton, DeactivatedButton } from "../Components/Buttons";
 import { BasicInput } from "../Components/Inputs";

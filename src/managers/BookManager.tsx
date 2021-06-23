@@ -1,6 +1,6 @@
 import database from "@react-native-firebase/database";
 import { Authentication } from "./Authentication";
-import GUID from "../hooks/GUIDGenerator";
+import GUID from "../managers/GUIDGenerator";
 
 interface IBookApiProp {
   libraryName: string;

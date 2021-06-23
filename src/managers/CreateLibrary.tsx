@@ -1,9 +1,11 @@
 import database from "@react-native-firebase/database";
-import { Authentication } from "../hooks/Authentication";
+import { Authentication } from "./Authentication";
+import GUID from "./GUIDGenerator";
 
 export function CreateLibrary(name: string) {
-  const username = Authentication.getUID();
-  const path = `/libraries/${username}/${name}`;
+  const libraryGUID = GUID();
+
+  const path = `/libraries/${Authentication.getUID()}/${libraryGUID}`;
   database()
     .ref(path)
     .update({
@@ -11,8 +13,8 @@ export function CreateLibrary(name: string) {
       metaData: {
         createdOn: new Date().getTime(),
         size: 0,
-        name,
       },
+      name,
       books: {},
     })
     .then(() => {});

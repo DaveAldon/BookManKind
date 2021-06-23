@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
 import * as GlobalStyles from "../../styles";
-import UpdateBook from "../../hooks/BookManager";
-import { Authentication } from "../../hooks/Authentication";
+import UpdateBook from "../../managers/BookManager";
+import { Authentication } from "../../managers/Authentication";
 import database from "@react-native-firebase/database";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import InputBlock from "./InputBlock";

@@ -6,6 +6,8 @@ interface IBookApiProp {
 }
 
 export function DeleteLibrary(props: IBookApiProp) {
+                  console.log("asdasd")
+
   const { libraryName } = props;
   const reference = `/libraries/${Authentication.getUID()}/${libraryName}`;
   database().ref(reference).remove();

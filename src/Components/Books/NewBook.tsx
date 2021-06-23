@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import * as GlobalStyles from "../../styles";
-import { NewBook } from "../../hooks/BookManager";
+import { NewBook } from "../../managers/BookManager";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import InputBlock from "./InputBlock";
 import { GreenButton, DeactivatedButton } from "../Buttons";

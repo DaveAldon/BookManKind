@@ -1,18 +1,18 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Alert } from "react-native";
 import database from "@react-native-firebase/database";
-import { Authentication } from "../../hooks/Authentication";
+import { Authentication } from "../../managers/Authentication";
 import * as GlobalStyles from "../../styles";
 import { LibraryCard } from "./LibraryCard";
 import Swipeable from "../../libraryOverrides/Swipeable";
 import * as Icons from "../../styles/icons";
-import GUID from "../../hooks/GUIDGenerator";
+import GUID from "../../managers/GUIDGenerator";
 import BottomSheet, { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import NewLibrary from "./NewLibrary";
 import RenderHeader from "../BottomSheet/BottomSheetHeader";
 import { BlueButton } from "../Buttons";
-import { DeleteLibrary } from "../../hooks/LibraryManager";
+import { DeleteLibrary } from "../../managers/LibraryManager";
 
 interface IProp {
   navigation: any;
@@ -38,6 +38,7 @@ export default function Library(props: IProp) {
 
         data.forEach(function (item) {
           tempLib.push(item);
+          console.log(item)
         });
         setLibraries(tempLib);
       });

@@ -5,7 +5,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import InputBlock from "./NewLibraryInput";
 import { GreenButton, DeactivatedButton } from "../Buttons";
 import * as Icons from "../../styles/icons";
-import { CreateLibrary } from "../../hooks/CreateLibrary";
+import { CreateLibrary } from "../../managers/CreateLibrary";
 
 interface IInputProp {
   name: string;

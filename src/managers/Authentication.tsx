@@ -1,5 +1,6 @@
 import auth from "@react-native-firebase/auth";
 import database from "@react-native-firebase/database";
+import {RegisterUserSharedLibrary} from "./SharedLibraries";
 
 function getUID() {
   return Authentication.getUser().user.uid;
@@ -9,6 +10,7 @@ function signUp(username: string, password: string) {
   auth()
     .createUserWithEmailAndPassword(username, password)
     .then(() => {
+      RegisterUserSharedLibrary()
       console.log("User account created & signed in!");
     })
     .catch((error) => {
@@ -28,6 +30,7 @@ function login(username: string, password: string) {
   auth()
     .signInWithEmailAndPassword(username, password)
     .then(() => {
+      RegisterUserSharedLibrary()
       console.log("User account signed in!");
     })
     .catch((error) => {
