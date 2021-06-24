@@ -11,6 +11,7 @@ interface IProp {
         email: string;
       };
       books: [{}];
+      name: string;
     };
     key: string;
   };
@@ -71,7 +72,7 @@ export function LibraryCard(props: IProp) {
     <View style={styles.card}>
       <View style={styles.titleInfoCard}>
         <View style={{ height: "100%" }}>
-          <Text style={[{ fontSize: 20, fontWeight: "700" }, GlobalStyles.Colors.defaultText]}>{key}</Text>
+          <Text style={[{ fontSize: 20, fontWeight: "700" }, GlobalStyles.Colors.defaultText]}>{value.name}</Text>
           <Text style={GlobalStyles.Colors.defaultText}>Created by {email}</Text>
         </View>
         <Text style={[{ fontSize: 20 }, GlobalStyles.Colors.defaultText]}>

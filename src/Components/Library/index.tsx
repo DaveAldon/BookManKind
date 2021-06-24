@@ -36,9 +36,9 @@ export default function Library(props: IProp) {
         const data = snapshot;
         const tempLib = [];
 
-        data.forEach(function (item) {
+        data.forEach(item => {
           tempLib.push(item);
-          console.log(item)
+          //console.log(item)
         });
         setLibraries(tempLib);
       });
@@ -47,37 +47,10 @@ export default function Library(props: IProp) {
     return () => database().ref(`/users/${Authentication.getUID()}`).off("value", onValueChange);
   }, [Authentication.getUID()]);
 
-  function rightButtons(libraryName: string) {
-    return [
-      <TouchableOpacity
-        onPress={() => {
-          Alert.alert("Confirm Delete", "Are you sure you want to delete this entire library?", [
-            {
-              text: "Cancel",
-              style: "cancel",
-            },
-            {
-              text: "Yes",
-              onPress: () => {
-                const libraryManagerProp = { libraryName };
-                DeleteLibrary(libraryManagerProp);
-              },
-            },
-          ]);
-        }}
-        style={[{ backgroundColor: GlobalStyles.Colors.buttons.RED }, styles.swipeButtons]}>
-        <Icons.Delete />
-      </TouchableOpacity>,
-      <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}>
-        <Icons.Share />
-      </TouchableOpacity>,
-    ];
-  }
-
-  const renderLibrary = ({ item }) => {
+  const renderLibrary = ( {item} ) => {
     return (
       <View style={{ height: 335 }}>
-        <Swipeable rightButtons={rightButtons(item.toJSON().metaData.name)}>
+        <Swipeable rightButtons={RightButtons(item.toJSON().metaData.libraryGUID)}>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Books", { libraryName: `${item.key}` });
@@ -146,6 +119,33 @@ export default function Library(props: IProp) {
     </View>
   );
 }
+
+  const RightButtons = (libraryName: string) => {
+    return [
+      <TouchableOpacity
+        onPress={() => {
+          Alert.alert("Confirm Delete", "Are you sure you want to delete this entire library?", [
+            {
+              text: "Cancel",
+              style: "cancel",
+            },
+            {
+              text: "Yes",
+              onPress: () => {
+                const libraryManagerProp = { libraryName };
+                DeleteLibrary(libraryManagerProp);
+              },
+            },
+          ]);
+        }}
+        style={[{ backgroundColor: GlobalStyles.Colors.buttons.RED }, styles.swipeButtons]}>
+        <Icons.Delete />
+      </TouchableOpacity>,
+      <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}>
+        <Icons.Share />
+      </TouchableOpacity>,
+    ];
+  }
 
 const styles = StyleSheet.create({
   swipeButtons: {
