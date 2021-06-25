@@ -1,6 +1,5 @@
 import database from "@react-native-firebase/database";
 import { Authentication } from "./Authentication";
-import GUID from "./GUIDGenerator";
 
 export function RegisterUserSharedLibrary() {
   const path = `/usersShare/${Authentication.getUID()}`;
@@ -15,15 +14,25 @@ export function RegisterUserSharedLibrary() {
     .then(() => {});
 }
 
-export function AddSharedLibrary(name: string) {
-  const path = `/usersShare/${Authentication.getUID()}/sharedLibraries`;
+export function AddSharedLibrary(libraryGUID: string) {
+  console.log("poop",libraryGUID)
+
+  
+  return
+  const userListReference = `/usersShare/${Authentication.getUID()}`;
+
   database()
-    .ref(path)
-    .update({
-      sharedLibraries: [],
-      metaData: {
-        createdOn: new Date().getTime(),
-      },
-    })
-    .then(() => {});
+    .ref(userListReference)
+    .once("value", (snapshotSize) => {
+      
+      const sharedLibrariesSnapshot = snapshotSize.toJSON()["sharedLibraries"];
+
+      const sharedLibraries: Array<string> = []
+      for(let key in sharedLibrariesSnapshot) {
+        sharedLibraries.push(sharedLibrariesSnapshot[key])
+      }
+      sharedLibraries.push(libraryGUID)
+      
+      database().ref(userListReference).update({ sharedLibraries: [...sharedLibraries] });
+ });
 }

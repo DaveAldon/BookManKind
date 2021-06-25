@@ -6,32 +6,34 @@ import InputBlock, { IInputProp } from "./Input";
 import { GreenButton, DeactivatedButton } from "../Buttons";
 import * as Icons from "../../styles/icons";
 import { CreateLibrary } from "../../managers/CreateLibrary";
+import { AddSharedLibrary } from "../../managers/SharedLibraries";
 
 interface IProp {
   bottomSheetRef: any;
+  libraryGUID: string;
 }
 
 export default function renderContent(props: IProp) {
-  const { bottomSheetRef } = props;
+  const { bottomSheetRef, libraryGUID } = props;
   const [canSubmit, setCanSubmit] = useState(false);
-  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   const updateForm = (value) => {
-    setName(value);
+    setEmail(value);
   };
 
   useEffect(() => {
-    setCanSubmit(name.length > 0);
-  }, [name]);
+    setCanSubmit(email.length > 0);
+  }, [email]);
 
   function ResetForm() {
-    setName("");
+    setEmail("");
   }
 
   const inputProp: IInputProp = {
-    name,
+    name: email,
     updateForm,
-    inputTitle: "Library Name"
+    inputTitle: "Share Id"
   };
 
   return (
@@ -45,24 +47,29 @@ export default function renderContent(props: IProp) {
           onPress={() => {
             bottomSheetRef.current.snapTo(0);
             setTimeout(() => {
-              CreateLibrary(name);
-              //console.log(name);
+              AddSharedLibrary(libraryGUID)
               ResetForm();
             }, 1000);
           }}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Icons.Done />
-            <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Done!</Text>
+            <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Share!</Text>
           </View>
         </GreenButton>
       ) : (
         <DeactivatedButton style={{ height: 60 }} onPress={() => {}}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Icons.Thinking />
-            <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Your library needs a name</Text>
+            <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>Enter a Share Id to share your library</Text>
           </View>
         </DeactivatedButton>
       )}
+      <DeactivatedButton style={{ height: 60 }} onPress={() => {}}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Icons.Thinking />
+            <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>What's my Shared Id?</Text>
+          </View>
+        </DeactivatedButton>
     </View>
   );
 }

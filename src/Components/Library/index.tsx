@@ -13,6 +13,8 @@ import NewLibrary from "./NewLibrary";
 import RenderHeader from "../BottomSheet/BottomSheetHeader";
 import { BlueButton } from "../Buttons";
 import { DeleteLibrary } from "../../managers/LibraryManager";
+import { AddSharedLibrary } from "../../managers/SharedLibraries";
+import ShareLibrary from "./ShareLibrary";
 
 interface IProp {
   navigation: any;
@@ -22,11 +24,13 @@ interface IProp {
 export default function Library(props: IProp) {
   const { navigation } = props;
   const [libraries, setLibraries] = useState([]);
+  const [shareContext, setShareContext] = useState<string>("");
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const bottomSheetRefNew = useRef<BottomSheetModal>(null);
+  const bottomSheetRefShare = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => [0, "100%"], []);
-
+  const snapPointsShare = useMemo(() => [0, "100%"], []);
   const snapPointsNew = useMemo(() => [getStatusBarHeight() >= 44 ? "10%" : "12%", "100%"], []);
 
   useEffect(() => {
@@ -48,9 +52,14 @@ export default function Library(props: IProp) {
   }, [Authentication.getUID()]);
 
   const renderLibrary = ( {item} ) => {
+    const rightButtonsProps: IRightButtons = {
+      libraryName: item.toJSON().metaData.libraryGUID,
+      bottomSheetRefShare,
+      setShareContext
+    }
     return (
       <View style={{ height: 335 }}>
-        <Swipeable rightButtons={RightButtons(item.toJSON().metaData.libraryGUID)}>
+        <Swipeable rightButtons={RightButtons (rightButtonsProps)}>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Books", { libraryName: `${item.key}` });
@@ -116,11 +125,30 @@ export default function Library(props: IProp) {
           <NewLibrary {...{ bottomSheetRef }} />
         </View>
       </BottomSheet>
+      <BottomSheet
+        backgroundComponent={() => <View></View>}
+        style={{ backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST }}
+        ref={bottomSheetRefShare}
+        index={0}
+        snapPoints={snapPointsShare}
+        handleComponent={() => <RenderHeader />}>
+        <View style={{ paddingHorizontal: 16, backgroundColor: GlobalStyles.Colors.backgrounds.LIGHTEST, flex: 1 }}>
+          <View style={{ marginBottom: 30 }}>
+            <ShareLibrary {...{ bottomSheetRef: bottomSheetRefShare, libraryGUID: shareContext}}/>
+          </View>
+        </View>
+      </BottomSheet>
     </View>
   );
 }
 
-  const RightButtons = (libraryName: string) => {
+interface IRightButtons {
+  libraryName: string;
+  bottomSheetRefShare: any;
+  setShareContext(arg0: string): void;
+}
+  const RightButtons = (props: IRightButtons) => {
+    const { libraryName, bottomSheetRefShare, setShareContext } = props;
     return [
       <TouchableOpacity
         onPress={() => {
@@ -141,7 +169,12 @@ export default function Library(props: IProp) {
         style={[{ backgroundColor: GlobalStyles.Colors.buttons.RED }, styles.swipeButtons]}>
         <Icons.Delete />
       </TouchableOpacity>,
-      <TouchableOpacity style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}>
+      <TouchableOpacity onPress={() => {
+        setShareContext(libraryName)
+        setTimeout(() => {
+              bottomSheetRefShare.current.expand()
+        }, 100);
+      }} style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}>
         <Icons.Share />
       </TouchableOpacity>,
     ];

@@ -2,13 +2,14 @@ import React from "react";
 import { View, Text, TextInput } from "react-native";
 import * as GlobalStyles from "../../styles";
 
-interface IInputProp {
+export interface IInputProp {
   name: string;
   updateForm: any;
+  inputTitle: string;
 }
 
 export default function InputBlock(inputProps: IInputProp) {
-  const { name, updateForm } = inputProps;
+  const { name, updateForm, inputTitle } = inputProps;
 
   return (
     <View style={{ flexDirection: "row", marginBottom: 5 }}>
@@ -22,7 +23,7 @@ export default function InputBlock(inputProps: IInputProp) {
           height: 60,
           backgroundColor: GlobalStyles.Colors.backgrounds.MEDIUMDARK,
         }}>
-        <Text style={[{ fontSize: 16, fontWeight: "200", textTransform: "capitalize" }, GlobalStyles.Colors.defaultText]}>Library Name</Text>
+        <Text style={[{ fontSize: 16, fontWeight: "200", textTransform: "capitalize" }, GlobalStyles.Colors.defaultText]}>{inputTitle}</Text>
       </View>
       <TextInput
         multiline={false}
@@ -41,7 +42,7 @@ export default function InputBlock(inputProps: IInputProp) {
           updateForm(text);
         }}
         value={name}
-        placeholder={"Tap to enter library name..."}
+        placeholder={`Tap to enter ${inputTitle}...`}
         placeholderTextColor={GlobalStyles.Colors.text.light}></TextInput>
     </View>
   );

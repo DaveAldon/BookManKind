@@ -9,7 +9,7 @@ import { Authentication } from "../../managers/Authentication";
 import { SearchBar } from "react-native-elements";
 import EditBook from "./EditBook";
 import { DeleteBook } from "../../managers/BookManager";
-import BottomSheet, { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetModal } from "@gorhom/bottom-sheet";
 import RenderHeader from "./BottomSheetHeader";
 import { BlueButton } from "../Buttons";
 import NewBook from "./NewBook";
@@ -28,7 +28,6 @@ export function Books(props: any) {
 
   // Bottomsheet state/hooks
   const bottomSheetRef = useRef<BottomSheet>(null);
-  //const bottomSheetRefNew = useRef<BottomSheet>(null);
   const bottomSheetRefNew = useRef<BottomSheetModal>(null);
 
   const snapPoints = useMemo(() => [getStatusBarHeight() >= 44 ? "10%" : "12%", "100%"], []);
