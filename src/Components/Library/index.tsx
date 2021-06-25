@@ -173,7 +173,7 @@ interface IRightButtons {
         setShareContext(libraryName)
         setTimeout(() => {
               bottomSheetRefShare.current.expand()
-        }, 100);
+        }, 200);
       }} style={[{ backgroundColor: GlobalStyles.Colors.buttons.BLUE }, styles.swipeButtons]}>
         <Icons.Share />
       </TouchableOpacity>,

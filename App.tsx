@@ -12,13 +12,18 @@ import auth from "@react-native-firebase/auth";
 import { Authentication } from "./src/managers/Authentication";
 import * as GlobalStyles from "./src/styles";
 import { Books } from "./src/Components/Books";
-import { Logout, Library } from "./src/styles/icons";
+import { Logout, Library, Settings as SettingsIcon } from "./src/styles/icons";
+import { Settings } from "./src/screens/Settings";
+import useRotation from "./src/Components/hooks/useRotation";
+import Animated from "react-native-reanimated";
 
 let initialRender = true;
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 function DrawerContainer() {
+  const rotate = useRotation();
+    const animatedStyle = { transform: [ { rotate } ] };
   return (
     <Drawer.Navigator
       initialRouteName="Home"
@@ -37,6 +42,14 @@ function DrawerContainer() {
               <DrawerItem labelStyle={styles.text} label="Home" onPress={() => props.navigation.navigate("Home")} icon={() => <Library />} />
               <DrawerItem
                 labelStyle={styles.text}
+                label="Settings"
+                onPress={() => {
+                  props.navigation.navigate("Settings")
+                }}
+                icon={() => <SettingsIcon animated={true} />}
+              />
+              <DrawerItem
+                labelStyle={styles.text}
                 label="Logout"
                 onPress={() => {
                   props.navigation.closeDrawer();
@@ -49,6 +62,7 @@ function DrawerContainer() {
         );
       }}>
       <Drawer.Screen name="Home" component={LibraryStack} />
+      <Drawer.Screen name="Settings" component={Settings} />
     </Drawer.Navigator>
   );
 }

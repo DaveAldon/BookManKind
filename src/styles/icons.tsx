@@ -7,6 +7,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as GlobalStyles from "../styles";
+import useRotation from '../Components/hooks/useRotation';
 
 function Delete({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
   return <AntDesign name="delete" size={size} color={color} />;
@@ -41,5 +42,11 @@ function Library({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
 function Logout({ color = GlobalStyles.Colors.defaultText.color, size = 30 }) {
   return <AntDesign name="logout" size={size} color={color} />;
 }
+function Settings({ color = GlobalStyles.Colors.defaultText.color, size = 30, animated = false }) {
+  return <Ionicons name="ios-settings" size={size} color={color}/>
+}
+function Tap({ color = GlobalStyles.Colors.defaultText.color, size = 30, animated = false }) {
+  return <MaterialCommunityIcons name="gesture-tap" size={size} color={color}/>
+}
 
-export { Delete, Share, Calendar, Pages, Genre, Edit, Book, Done, Thinking, Library, Logout };
+export { Tap,Delete, Share, Calendar, Pages, Genre, Edit, Book, Done, Thinking, Library, Logout, Settings };

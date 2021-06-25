@@ -23,7 +23,7 @@ export default function renderContent(props: IProp) {
   };
 
   useEffect(() => {
-    setCanSubmit(email.length > 0);
+    setCanSubmit(email.length === 28);
   }, [email]);
 
   function ResetForm() {
@@ -64,12 +64,6 @@ export default function renderContent(props: IProp) {
           </View>
         </DeactivatedButton>
       )}
-      <DeactivatedButton style={{ height: 60 }} onPress={() => {}}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icons.Thinking />
-            <Text style={[{ fontSize: 18, marginLeft: 20, fontWeight: "200" }, GlobalStyles.Colors.defaultText]}>What's my Shared Id?</Text>
-          </View>
-        </DeactivatedButton>
     </View>
   );
 }

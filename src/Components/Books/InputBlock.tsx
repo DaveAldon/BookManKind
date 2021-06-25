@@ -49,7 +49,7 @@ export default function InputBlock(inputProps: IInputProp) {
         }}
         value={book[title].toString()}
         placeholder={"Tap to enter info..."}
-        placeholderTextColor={GlobalStyles.Colors.text.light}></TextInput>
+        placeholderTextColor={GlobalStyles.Colors.text.light}/>
     </View>
   );
 }
